@@ -1,0 +1,402 @@
+{
+  "meta": {
+    "title": "Social Networks Security Interactive Lab — Data Store",
+    "author": "Dr. Ali Salim",
+    "version": "1.0.0",
+    "description": "Question bank and reference data for the SNS Security Lab backend"
+  },
+
+  "trustedSeedSites": [
+    {
+      "id": "seed-01",
+      "domain": "wikipedia.org",
+      "label": "Wikipedia",
+      "category": "Encyclopedia",
+      "trustScore": 0.95,
+      "reason": "Highly cited, community-maintained, non-commercial knowledge base",
+      "icon": "📚"
+    },
+    {
+      "id": "seed-02",
+      "domain": "nih.gov",
+      "label": "National Institutes of Health",
+      "category": "Government / Health",
+      "trustScore": 0.98,
+      "reason": "Official US federal health agency; peer-reviewed publication host",
+      "icon": "🏛️"
+    },
+    {
+      "id": "seed-03",
+      "domain": "ieee.org",
+      "label": "IEEE",
+      "category": "Academic / Technical",
+      "trustScore": 0.97,
+      "reason": "Largest technical professional organisation; rigorous peer-review process",
+      "icon": "🔬"
+    },
+    {
+      "id": "seed-04",
+      "domain": "acm.org",
+      "label": "ACM Digital Library",
+      "category": "Academic / Computer Science",
+      "trustScore": 0.96,
+      "reason": "Premier CS academic publisher; all papers peer-reviewed",
+      "icon": "💻"
+    },
+    {
+      "id": "seed-05",
+      "domain": "scholar.google.com",
+      "label": "Google Scholar",
+      "category": "Academic Search",
+      "trustScore": 0.90,
+      "reason": "Indexes peer-reviewed literature across all disciplines",
+      "icon": "🎓"
+    },
+    {
+      "id": "seed-06",
+      "domain": "bbc.com",
+      "label": "BBC News",
+      "category": "News / Journalism",
+      "trustScore": 0.88,
+      "reason": "Publicly funded broadcaster; strict editorial guidelines and fact-checking",
+      "icon": "📰"
+    },
+    {
+      "id": "seed-07",
+      "domain": "reuters.com",
+      "label": "Reuters",
+      "category": "News Agency",
+      "trustScore": 0.91,
+      "reason": "International news agency with 170+ year track record; non-partisan editorial policy",
+      "icon": "🌐"
+    },
+    {
+      "id": "seed-08",
+      "domain": "snopes.com",
+      "label": "Snopes",
+      "category": "Fact-Checking",
+      "trustScore": 0.87,
+      "reason": "Dedicated fact-checking organisation; transparent sourcing methodology",
+      "icon": "🔍"
+    },
+    {
+      "id": "seed-09",
+      "domain": "archive.org",
+      "label": "Internet Archive",
+      "category": "Digital Archive",
+      "trustScore": 0.92,
+      "reason": "Non-profit digital library; preserves web content for historical reference",
+      "icon": "🗄️"
+    },
+    {
+      "id": "seed-10",
+      "domain": "cve.mitre.org",
+      "label": "MITRE CVE",
+      "category": "Cybersecurity",
+      "trustScore": 0.99,
+      "reason": "US federally-funded CVE database; authoritative source for vulnerability data",
+      "icon": "🛡️"
+    },
+    {
+      "id": "seed-11",
+      "domain": "nist.gov",
+      "label": "NIST",
+      "category": "Government / Standards",
+      "trustScore": 0.98,
+      "reason": "US standards body; publishes authoritative cybersecurity frameworks (NIST CSF)",
+      "icon": "📐"
+    },
+    {
+      "id": "seed-12",
+      "domain": "owasp.org",
+      "label": "OWASP",
+      "category": "Cybersecurity",
+      "trustScore": 0.94,
+      "reason": "Open non-profit web security community; OWASP Top 10 is industry standard",
+      "icon": "🔐"
+    }
+  ],
+
+  "questions": [
+    {
+      "id": 1,
+      "topic": "OSINT",
+      "difficulty": "medium",
+      "q": "What is the term for intelligence produced by collecting and analyzing publicly available information?",
+      "opts": [
+        "Signal Intelligence (SIGINT)",
+        "Open Source Intelligence (OSINT)",
+        "Direct Metadata Analysis",
+        "Social Graph Theory"
+      ],
+      "correct": 1,
+      "exp": "OSINT (Open Source Intelligence) is defined as intelligence produced by collecting, evaluating, and analyzing publicly available information with the purpose of answering a specific intelligence question."
+    },
+    {
+      "id": 2,
+      "topic": "Sybil Attacks",
+      "difficulty": "medium",
+      "q": "In a Sybil attack, what is the \"Second Hop\"?",
+      "opts": [
+        "The original fake account (Source Node)",
+        "Friends of friends — carrying Inherited Social Trust",
+        "Direct friends of the fake account",
+        "The platform's security verification team"
+      ],
+      "correct": 1,
+      "exp": "The Second Hop refers to Friends of Friends. When a fake account reaches this level, it gains \"Inherited Social Trust\" because targets see a mutual friend from the First Hop and assume legitimacy."
+    },
+    {
+      "id": 3,
+      "topic": "Image OSINT",
+      "difficulty": "hard",
+      "q": "Which element in a photograph is described as a \"wealth signal\" by the lecture?",
+      "opts": [
+        "GPS coordinates in EXIF data",
+        "A high-end smartphone or designer clothing",
+        "The number of likes on the post",
+        "The color filter applied to the image"
+      ],
+      "correct": 1,
+      "exp": "High-end smartphones, specific watch brands, or designer clothing are \"wealth signals\" that make individuals targets for social engineering and targeted financial attacks."
+    },
+    {
+      "id": 4,
+      "topic": "TrustRank",
+      "difficulty": "medium",
+      "q": "What does the damping factor (d=0.85) represent in PageRank and TrustRank?",
+      "opts": [
+        "Decrease importance of all pages equally",
+        "Count total outbound links",
+        "Eliminate all untrusted domain links",
+        "Probability that a random surfer continues clicking links"
+      ],
+      "correct": 3,
+      "exp": "The damping factor d (typically 0.85) models the probability that a random surfer continues following links rather than \"teleporting\" to a new page, preventing rank sinks and ensuring convergence."
+    },
+    {
+      "id": 5,
+      "topic": "Data Privacy",
+      "difficulty": "easy",
+      "q": "Which data category includes GPS coordinates from posts and IP addresses?",
+      "opts": [
+        "Personal Information (PII)",
+        "User-Generated Content",
+        "Social Graph & Contacts",
+        "Location Data"
+      ],
+      "correct": 3,
+      "exp": "Location Data encompasses GPS coordinates from posts, IP addresses, and check-ins — critical privacy concerns since this data can be used for stalking and criminal activities."
+    },
+    {
+      "id": 6,
+      "topic": "Phishing Detection",
+      "difficulty": "hard",
+      "q": "What is the Levenshtein distance between \"facebook\" and \"faceb00k\"?",
+      "opts": [
+        "Distance = 1 (one substitution)",
+        "Distance = 2 (two substitutions: o→0, o→0)",
+        "Distance = 3 (three changes)",
+        "Distance = 0 (identical)"
+      ],
+      "correct": 1,
+      "exp": "Two substitutions are required: replacing the first \"o\" with \"0\" and the second \"o\" with \"0\". Similarity = 1 - (2/8) = 75%, which exceeds the danger threshold."
+    },
+    {
+      "id": 7,
+      "topic": "Account Takeovers",
+      "difficulty": "medium",
+      "q": "What is \"Credential Stuffing\"?",
+      "opts": [
+        "A type of antivirus software",
+        "Creating unique passwords for every site",
+        "Using stolen credentials from one site to breach accounts on other platforms",
+        "Changing your password every 30 days"
+      ],
+      "correct": 2,
+      "exp": "Credential Stuffing exploits password reuse. Attackers take username/password pairs stolen from a breached site and systematically test them against other services like banks and social media."
+    },
+    {
+      "id": 8,
+      "topic": "Malware",
+      "difficulty": "medium",
+      "q": "Which malware type locks user devices and demands payment for restored access?",
+      "opts": [
+        "Spyware",
+        "Adware",
+        "Ransomware",
+        "Rootkit"
+      ],
+      "correct": 2,
+      "exp": "Ransomware encrypts a user's files or locks their device and demands payment to restore access. Social media is frequently used to distribute ransomware download links."
+    },
+    {
+      "id": 9,
+      "topic": "Social Networks",
+      "difficulty": "easy",
+      "q": "Which platform is classified as a Microblogging Service?",
+      "opts": [
+        "TikTok",
+        "LinkedIn",
+        "X (formerly Twitter)",
+        "Discord"
+      ],
+      "correct": 2,
+      "exp": "X (formerly Twitter) is a microblogging platform enabling real-time public conversation, news broadcasting, and short-form text communication."
+    },
+    {
+      "id": 10,
+      "topic": "Chronolocation",
+      "difficulty": "hard",
+      "q": "Which OSINT technique uses shadow angle and length to determine when a photo was taken?",
+      "opts": [
+        "EXIF Data Extraction",
+        "Facial Recognition",
+        "Chronolocation (Shadow Analysis)",
+        "Reverse Image Search"
+      ],
+      "correct": 2,
+      "exp": "Chronolocation analyzes shadow angles against sun position data using tools like SunCalc to determine the exact date and time a photograph was taken."
+    },
+    {
+      "id": 11,
+      "topic": "Sybil Attacks",
+      "difficulty": "hard",
+      "q": "Which graph metric — measuring whether your friends also know each other — detects fake networks?",
+      "opts": [
+        "Expansion Rate",
+        "Path Length",
+        "Clustering Coefficient",
+        "Damping Factor"
+      ],
+      "correct": 2,
+      "exp": "The Clustering Coefficient measures how much nodes cluster together. Real networks are \"incestuous\" — your friends know each other. Bot networks lack cross-links, producing a suspiciously low coefficient."
+    },
+    {
+      "id": 12,
+      "topic": "TrustRank",
+      "difficulty": "hard",
+      "q": "In TrustRank, where does the \"random browser\" always teleport back to?",
+      "opts": [
+        "Any random page on the web",
+        "Page with highest PageRank",
+        "Most recently visited page",
+        "A page from the manually verified Trusted Seed Set S"
+      ],
+      "correct": 3,
+      "exp": "TrustRank restricts the teleportation set to only trusted seed pages S. This biases the random walk toward trusted content, ensuring pages far from seeds receive low trust scores."
+    },
+    {
+      "id": 13,
+      "topic": "Data Privacy",
+      "difficulty": "medium",
+      "q": "What is EXIF data and what security risk does it pose?",
+      "opts": [
+        "Extended File Info — reveals software version only",
+        "Exchangeable Image File Format — embeds GPS, timestamp, device info in photos",
+        "External Index Format — tracks social media engagement",
+        "Encrypted Exchange Format — secures image transmission"
+      ],
+      "correct": 1,
+      "exp": "EXIF (Exchangeable Image File Format) is metadata embedded in photos containing GPS coordinates, timestamp, camera model, and device information — all usable to locate or track users."
+    },
+    {
+      "id": 14,
+      "topic": "Platform Security",
+      "difficulty": "medium",
+      "q": "What attack exploits public café charging stations to install malware on devices?",
+      "opts": [
+        "Man-in-the-Middle (MITM)",
+        "SQL Injection",
+        "Juice Jacking",
+        "Shoulder Surfing"
+      ],
+      "correct": 2,
+      "exp": "Juice Jacking occurs when attackers compromise public USB charging stations to install malware or steal data via the charging cable when users plug in."
+    },
+    {
+      "id": 15,
+      "topic": "Social Engineering",
+      "difficulty": "medium",
+      "q": "Why does fake news typically spread faster than factual information on social networks?",
+      "opts": [
+        "Platforms algorithmically promote false content",
+        "Fake news uses better quality images",
+        "Novel, emotionally triggering content has a higher transmission rate and gets shared more",
+        "Verified accounts always share fake news first"
+      ],
+      "correct": 2,
+      "exp": "Research confirms fake news spreads faster because it tends to be more novel and emotionally charged — triggering anger, fear, or surprise, which significantly increases sharing behavior."
+    },
+    {
+      "id": 16,
+      "topic": "TrustRank",
+      "difficulty": "hard",
+      "q": "What is the key difference between PageRank and TrustRank?",
+      "opts": [
+        "TrustRank uses a higher damping factor",
+        "PageRank only works on social networks",
+        "TrustRank restricts teleportation to a manually verified seed set instead of all pages",
+        "TrustRank ignores inbound links entirely"
+      ],
+      "correct": 2,
+      "exp": "The core difference: PageRank teleports to any random page with equal probability. TrustRank restricts teleportation exclusively to a small, manually verified Trusted Seed Set S, biasing propagation toward trusted content."
+    },
+    {
+      "id": 17,
+      "topic": "Sybil Attacks",
+      "difficulty": "easy",
+      "q": "What is a Sybil Attack in the context of social networks?",
+      "opts": [
+        "A brute-force password attack against user accounts",
+        "Creating large numbers of fake identities to gain disproportionate influence",
+        "Injecting malicious scripts into social media posts",
+        "Stealing session cookies to hijack accounts"
+      ],
+      "correct": 1,
+      "exp": "A Sybil Attack involves creating many fake accounts (Sybil nodes) to gain disproportionate influence, spread misinformation, manipulate votes, or deceive users by faking social credibility."
+    },
+    {
+      "id": 18,
+      "topic": "OSINT",
+      "difficulty": "medium",
+      "q": "Which tool is specifically designed for shadow-based chronolocation of photographs?",
+      "opts": [
+        "Shodan",
+        "Maltego",
+        "SunCalc",
+        "ExifTool"
+      ],
+      "correct": 2,
+      "exp": "SunCalc is a solar position calculator that, when combined with a known location, allows analysts to determine the exact time a photograph was taken by matching shadow angles to sun position data."
+    },
+    {
+      "id": 19,
+      "topic": "Phishing Detection",
+      "difficulty": "medium",
+      "q": "What are homoglyph substitutions in phishing attacks?",
+      "opts": [
+        "Creating identical copies of login forms",
+        "Replacing letters with visually similar characters (e.g., 'o'→'0', 'l'→'1')",
+        "Generating random subdomains to confuse users",
+        "Using foreign-language domains to bypass filters"
+      ],
+      "correct": 1,
+      "exp": "Homoglyph substitutions replace standard characters with visually similar ones — 'paypa1.com' instead of 'paypal.com'. The Levenshtein distance detects these with a small edit distance and high similarity score."
+    },
+    {
+      "id": 20,
+      "topic": "Platform Security",
+      "difficulty": "easy",
+      "q": "Which security measure significantly reduces account takeover risk even when passwords are stolen?",
+      "opts": [
+        "Using a longer password",
+        "Two-Factor Authentication (2FA)",
+        "Logging out after each session",
+        "Using a different username on every platform"
+      ],
+      "correct": 1,
+      "exp": "Two-Factor Authentication (2FA) adds a second verification layer — typically a time-based OTP or SMS code — that an attacker cannot access even with the correct password, blocking credential stuffing and phishing."
+    }
+  ]
+}
