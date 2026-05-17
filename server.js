@@ -14,6 +14,11 @@ const bodyParser = require('body-parser');
 const path       = require('path');
 const fs         = require('fs');
 
+// ── Study Center: dependencies ─────────────────────────────────────
+const multer   = require('multer');
+const pdfParse = require('pdf-parse');
+const Anthropic = require('@anthropic-ai/sdk');
+
 // ── Bootstrap ──────────────────────────────────────────────────────
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -29,8 +34,29 @@ try {
   process.exit(1);
 }
 
+// ── Study Center: in-memory store & multer setup ──────────────────
+const studyFiles = [];   // { id, name, size, mimeType, category, uploadedAt, textContent, filePath }
+let fileCounter = 1;
+
+const UPLOADS_DIR = path.join(__dirname, 'uploads');
+if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR);
+
+const upload = multer({
+  dest: UPLOADS_DIR,
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB
+  fileFilter: (req, file, cb) => {
+    const allowed = ['application/pdf', 'text/plain'];
+    cb(null, allowed.includes(file.mimetype));
+  },
+});
+
+function getAI() {
+  if (!process.env.ANTHROPIC_API_KEY) return null;
+  return new Anthropic();
+}
+
 // ── Middleware ─────────────────────────────────────────────────────
-app.use(cors({ origin: '*', methods: ['GET', 'POST'] }));
+app.use(cors({ origin: '*', methods: ['GET', 'POST', 'DELETE'] }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -344,13 +370,300 @@ app.get('/api/health', (req, res) => {
 
 
 // ══════════════════════════════════════════════════════════════════
+// STUDY CENTER ROUTES
+// ══════════════════════════════════════════════════════════════════
+
+// Detect category from text content
+function detectCategory(text) {
+  const t = text.toLowerCase();
+  const rules = [
+    { cat: 'Security',     kw: ['firewall','intrusion','attack','malware','sybil','phishing','vulnerability','exploit'] },
+    { cat: 'Networking',   kw: ['router','protocol','tcp','ip','subnet','packet','osi','bandwidth'] },
+    { cat: 'Algorithms',   kw: ['sort','search','complexity','o(n)','binary','graph','dynamic','recursion'] },
+    { cat: 'Cryptography', kw: ['encrypt','decrypt','cipher','hash','rsa','aes','key','signature'] },
+    { cat: 'Privacy',      kw: ['gdpr','data protection','privacy','consent','anonymiz','personal data'] },
+  ];
+  for (const { cat, kw } of rules) {
+    if (kw.some(w => t.includes(w))) return cat;
+  }
+  return 'General';
+}
+
+// POST /api/study/upload
+app.post('/api/study/upload', upload.array('files', 10), async (req, res) => {
+  try {
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ ok: false, error: 'No files uploaded.' });
+    }
+
+    const uploaded = [];
+    for (const file of req.files) {
+      let textContent = '';
+      try {
+        if (file.mimetype === 'application/pdf') {
+          const dataBuffer = fs.readFileSync(file.path);
+          const pdfData = await pdfParse(dataBuffer);
+          textContent = pdfData.text;
+        } else {
+          textContent = fs.readFileSync(file.path, 'utf-8');
+        }
+      } catch (parseErr) {
+        textContent = '';
+      }
+
+      // Truncate to 8000 chars
+      textContent = textContent.substring(0, 8000);
+
+      const category = detectCategory(textContent);
+      const entry = {
+        id         : fileCounter++,
+        name       : file.originalname,
+        size       : file.size,
+        mimeType   : file.mimetype,
+        category,
+        uploadedAt : new Date().toISOString(),
+        textContent,
+      };
+      studyFiles.push(entry);
+      uploaded.push({ id: entry.id, name: entry.name, size: entry.size, category: entry.category, uploadedAt: entry.uploadedAt });
+
+      // Clean up temp file
+      try { fs.unlinkSync(file.path); } catch (_) {}
+    }
+
+    return res.json({ ok: true, files: uploaded });
+  } catch (err) {
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+// GET /api/study/files
+app.get('/api/study/files', (req, res) => {
+  try {
+    const { category = '', sort = 'date' } = req.query;
+
+    let files = studyFiles.map(f => ({
+      id        : f.id,
+      name      : f.name,
+      size      : f.size,
+      mimeType  : f.mimeType,
+      category  : f.category,
+      uploadedAt: f.uploadedAt,
+    }));
+
+    if (category) files = files.filter(f => f.category === category);
+
+    if (sort === 'name') {
+      files.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sort === 'size') {
+      files.sort((a, b) => b.size - a.size);
+    } else {
+      files.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
+    }
+
+    return res.json({ ok: true, total: files.length, files });
+  } catch (err) {
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+// DELETE /api/study/files/:id
+app.delete('/api/study/files/:id', (req, res) => {
+  try {
+    const id  = parseInt(req.params.id, 10);
+    const idx = studyFiles.findIndex(f => f.id === id);
+    if (idx === -1) return res.status(404).json({ ok: false, error: 'File not found.' });
+    studyFiles.splice(idx, 1);
+    return res.json({ ok: true, message: 'File deleted' });
+  } catch (err) {
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+// POST /api/study/summarize/:id
+app.post('/api/study/summarize/:id', async (req, res) => {
+  try {
+    const id   = parseInt(req.params.id, 10);
+    const file = studyFiles.find(f => f.id === id);
+    if (!file) return res.status(404).json({ ok: false, error: 'File not found.' });
+
+    const textContent = file.textContent;
+    const ai = getAI();
+
+    if (!ai) {
+      return res.json({
+        ok: true, fileId: id, fileName: file.name,
+        demo: true,
+        summary: {
+          arabic: 'هذا ملخص تجريبي للوثيقة. لتفعيل الملخص الذكي، يرجى إضافة مفتاح API الخاص بـ Anthropic.',
+          english: 'This is a demo summary. To enable AI-powered summaries, please set the ANTHROPIC_API_KEY environment variable.',
+          keyPoints: {
+            arabic : ['تمت قراءة الوثيقة بنجاح', 'النص جاهز للمعالجة', 'أضف مفتاح API لتفعيل الذكاء الاصطناعي'],
+            english: ['Document successfully parsed', 'Text content extracted and ready', 'Add ANTHROPIC_API_KEY to enable AI'],
+          },
+          category: file.category,
+        },
+      });
+    }
+
+    const msg = await ai.messages.create({
+      model     : 'claude-haiku-4-5-20251001',
+      max_tokens: 1024,
+      system    : 'You are a bilingual educational assistant. Always respond with valid JSON only, no markdown.',
+      messages  : [{
+        role   : 'user',
+        content: `Analyze this document and return a JSON object with this exact shape:
+{
+  "arabic": "ملخص عربي شامل للوثيقة في 3-4 جمل",
+  "english": "Comprehensive English summary in 3-4 sentences",
+  "keyPoints": {
+    "arabic": ["نقطة 1", "نقطة 2", "نقطة 3"],
+    "english": ["Point 1", "Point 2", "Point 3"]
+  },
+  "category": "Security|Networking|Algorithms|Cryptography|Privacy|General"
+}
+
+Document content:
+${textContent.substring(0, 6000)}`,
+      }],
+    });
+
+    let summary;
+    try {
+      summary = JSON.parse(msg.content[0].text);
+    } catch (_) {
+      return res.status(500).json({ ok: false, error: 'AI returned invalid JSON. Please try again.' });
+    }
+
+    return res.json({ ok: true, fileId: id, fileName: file.name, summary });
+  } catch (err) {
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+// POST /api/study/generate-exam/:id
+app.post('/api/study/generate-exam/:id', async (req, res) => {
+  try {
+    const id   = parseInt(req.params.id, 10);
+    const file = studyFiles.find(f => f.id === id);
+    if (!file) return res.status(404).json({ ok: false, error: 'File not found.' });
+
+    const textContent = file.textContent;
+    const ai = getAI();
+
+    if (!ai) {
+      return res.json({
+        ok: true, fileId: id, fileName: file.name, demo: true,
+        exam: {
+          mcq: [
+            {
+              question   : { arabic: 'ما هو الغرض الرئيسي من تحليل الوثيقة؟', english: 'What is the main purpose of document analysis?' },
+              options    : [
+                { arabic: 'استخراج المعلومات', english: 'Extract information' },
+                { arabic: 'حذف البيانات',       english: 'Delete data' },
+                { arabic: 'إخفاء المحتوى',      english: 'Hide content' },
+                { arabic: 'تشفير النص',          english: 'Encrypt text' },
+              ],
+              correct    : 0,
+              explanation: { arabic: 'الغرض الأساسي هو استخراج وتحليل المعلومات المفيدة.', english: 'The primary purpose is to extract and analyze useful information.' },
+            },
+            {
+              question   : { arabic: 'أي تنسيق يدعمه نظام رفع الملفات؟', english: 'Which format does the file upload system support?' },
+              options    : [
+                { arabic: 'صور PNG فقط',          english: 'PNG images only' },
+                { arabic: 'PDF والنص العادي',      english: 'PDF and plain text' },
+                { arabic: 'ملفات Excel',           english: 'Excel files' },
+                { arabic: 'ملفات ZIP',             english: 'ZIP archives' },
+              ],
+              correct    : 1,
+              explanation: { arabic: 'النظام يدعم PDF وملفات النص العادي (.txt).', english: 'The system supports PDF and plain text (.txt) files.' },
+            },
+            {
+              question   : { arabic: 'ما هي الحد الأقصى لحجم الملف المسموح به؟', english: 'What is the maximum allowed file size?' },
+              options    : [
+                { arabic: '1 ميغابايت',  english: '1 MB' },
+                { arabic: '5 ميغابايت',  english: '5 MB' },
+                { arabic: '10 ميغابايت', english: '10 MB' },
+                { arabic: '50 ميغابايت', english: '50 MB' },
+              ],
+              correct    : 2,
+              explanation: { arabic: 'الحد الأقصى لحجم الملف هو 10 ميغابايت.', english: 'The maximum file size is 10 MB.' },
+            },
+          ],
+          trueFalse: [
+            {
+              statement  : { arabic: 'يمكن للنظام معالجة ملفات PDF واستخراج النص منها.', english: 'The system can process PDF files and extract text from them.' },
+              answer     : true,
+              explanation: { arabic: 'نعم، يستخدم النظام مكتبة pdf-parse لاستخراج النص من PDF.', english: 'Yes, the system uses pdf-parse library to extract text from PDFs.' },
+            },
+            {
+              statement  : { arabic: 'يتطلب النظام قاعدة بيانات خارجية لتخزين الملفات.', english: 'The system requires an external database to store files.' },
+              answer     : false,
+              explanation: { arabic: 'لا، يستخدم النظام الذاكرة المؤقتة لتخزين بيانات الملفات.', english: 'No, the system uses in-memory storage for file metadata.' },
+            },
+          ],
+        },
+      });
+    }
+
+    const msg = await ai.messages.create({
+      model     : 'claude-haiku-4-5-20251001',
+      max_tokens: 2048,
+      system    : 'You are a bilingual exam question generator. Always respond with valid JSON only, no markdown.',
+      messages  : [{
+        role   : 'user',
+        content: `Based on the document below, generate exam questions. Return this exact JSON shape:
+{
+  "mcq": [
+    {
+      "question": { "arabic": "...", "english": "..." },
+      "options": [
+        { "arabic": "...", "english": "..." },
+        { "arabic": "...", "english": "..." },
+        { "arabic": "...", "english": "..." },
+        { "arabic": "...", "english": "..." }
+      ],
+      "correct": 0,
+      "explanation": { "arabic": "...", "english": "..." }
+    }
+  ],
+  "trueFalse": [
+    {
+      "statement": { "arabic": "...", "english": "..." },
+      "answer": true,
+      "explanation": { "arabic": "...", "english": "..." }
+    }
+  ]
+}
+
+Generate 5 MCQ questions and 5 True/False questions.
+
+Document:
+${textContent.substring(0, 6000)}`,
+      }],
+    });
+
+    let exam;
+    try {
+      exam = JSON.parse(msg.content[0].text);
+    } catch (_) {
+      return res.status(500).json({ ok: false, error: 'AI returned invalid JSON. Please try again.' });
+    }
+
+    return res.json({ ok: true, fileId: id, fileName: file.name, exam });
+  } catch (err) {
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+// ══════════════════════════════════════════════════════════════════
 // 404 Handler (API routes only)
 // ══════════════════════════════════════════════════════════════════
 app.use('/api', (req, res) => {
   res.status(404).json({
     ok   : false,
     error: `Endpoint ${req.method} ${req.path} not found.`,
-    hint : 'Available: GET /api/health | GET /api/quiz | GET /api/seeds | POST /api/levenshtein | POST /api/submit-quiz',
+    hint : 'Available: GET /api/health | GET /api/quiz | GET /api/seeds | POST /api/levenshtein | POST /api/submit-quiz | POST /api/study/upload | GET /api/study/files | DELETE /api/study/files/:id | POST /api/study/summarize/:id | POST /api/study/generate-exam/:id',
   });
 });
 

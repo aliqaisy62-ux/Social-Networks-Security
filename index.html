@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Social Networks Security Interactive Lab</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg-primary:    #0f172a;
@@ -696,6 +696,136 @@
   @keyframes terminal-blink {
     0%,100% { opacity: 1; } 50% { opacity: 0; }
   }
+
+  /* ── BILINGUAL TEXT ── */
+  .bilingual-wrap { display: flex; flex-direction: column; gap: 0.15em; }
+  .bilingual-en   { color: var(--text-primary); font-size: 1em; }
+  .bilingual-ar   { color: var(--text-secondary); font-size: 0.82em; font-family: 'Cairo', sans-serif; direction: rtl; text-align: right; display: block; }
+
+  /* ── ALGORITHMS PAGE ── */
+  .algo-card { background:var(--bg-card); border:1px solid var(--border); border-radius:14px; padding:1.5rem; margin-bottom:1.5rem; }
+  .algo-header { display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem; }
+  .algo-icon { font-size:2rem; }
+  .algo-title { font-size:1.3rem; font-weight:700; color:var(--text-primary); }
+  .algo-subtitle { font-size:0.85rem; color:var(--text-secondary); font-family:'Cairo',sans-serif; direction:rtl; }
+
+  /* Bilingual explanation: Arabic on top, English below */
+  .bilingual-algo { display:flex; flex-direction:column; gap:0.4rem; margin-bottom:1rem; }
+  .bilingual-algo .ar { font-family:'Cairo',sans-serif; direction:rtl; text-align:right; color:var(--text-primary); font-size:1rem; line-height:1.7; border-right:3px solid var(--accent-cyan); padding-right:0.75rem; }
+  .bilingual-algo .en { color:var(--text-secondary); font-size:0.88rem; line-height:1.6; border-left:3px solid var(--accent-trust); padding-left:0.75rem; }
+
+  /* Complexity box */
+  .complexity-box { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1rem 0; }
+  .complexity-item { background:var(--bg-secondary); border-radius:10px; padding:0.85rem 1rem; border:1px solid var(--border); }
+  .complexity-label { font-size:0.72rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-secondary); margin-bottom:0.35rem; }
+  .complexity-label-ar { font-family:'Cairo',sans-serif; font-size:0.72rem; color:var(--text-secondary); direction:rtl; text-align:right; }
+  .complexity-value { font-size:1.1rem; font-weight:700; font-family:'Share Tech Mono',monospace; }
+  .complexity-value.good { color:var(--accent-trust); }
+  .complexity-value.ok   { color:var(--accent-warn); }
+  .complexity-value.bad  { color:var(--accent-threat); }
+
+  /* Code block */
+  .algo-code-wrap { position:relative; margin-top:1rem; }
+  .algo-code-label { font-size:0.72rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent-cyan); margin-bottom:0.4rem; }
+  .algo-code { background:#0a0f1a; border:1px solid var(--border); border-radius:10px; padding:1.1rem 1.25rem; overflow-x:auto; font-family:'Share Tech Mono',monospace; font-size:0.82rem; line-height:1.6; color:#e2e8f0; white-space:pre; }
+  .algo-code .kw  { color:#7c3aed; }
+  .algo-code .fn  { color:#06b6d4; }
+  .algo-code .cm  { color:#4b5563; font-style:italic; }
+  .algo-code .st  { color:#10b981; }
+  .algo-code .nb  { color:#f59e0b; }
+
+  /* Algo section divider */
+  .algo-section-title { font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent-cyan); margin:0.75rem 0 0.5rem; border-bottom:1px solid var(--border); padding-bottom:0.35rem; }
+
+  /* Algo grid for complexity best/avg/worst */
+  .complexity-box-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.75rem; margin:1rem 0; }
+
+  /* ── STUDY CENTER PAGE ── */
+  .study-upload-zone {
+    border: 2px dashed var(--accent-cyan);
+    border-radius: 14px;
+    padding: 2.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: rgba(6,182,212,0.04);
+    position: relative;
+  }
+  .study-upload-zone:hover, .study-upload-zone.drag-over {
+    border-color: var(--accent-trust);
+    background: rgba(16,185,129,0.08);
+  }
+  .study-upload-zone input[type="file"] {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+  }
+  .study-file-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin-top: 1rem; }
+  .study-file-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1rem 1.1rem; position: relative; transition: border-color 0.2s;
+  }
+  .study-file-card:hover { border-color: var(--accent-cyan); }
+  .study-file-card .file-name { font-weight: 600; color: var(--text-primary); font-size: 0.9rem; word-break: break-all; }
+  .study-file-card .file-meta { font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem; }
+  .category-badge {
+    display: inline-block; padding: 0.15rem 0.6rem; border-radius: 20px;
+    font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .cat-Security    { background: rgba(239,68,68,0.15); color: #ef4444; }
+  .cat-Networking  { background: rgba(6,182,212,0.15); color: #06b6d4; }
+  .cat-Algorithms  { background: rgba(139,92,246,0.15); color: #8b5cf6; }
+  .cat-Cryptography{ background: rgba(245,158,11,0.15); color: #f59e0b; }
+  .cat-Privacy     { background: rgba(16,185,129,0.15); color: #10b981; }
+  .cat-General     { background: rgba(148,163,184,0.15); color: #94a3b8; }
+  .file-actions { display: flex; gap: 0.4rem; margin-top: 0.75rem; }
+  .file-actions .btn { font-size: 0.72rem; padding: 0.3rem 0.6rem; }
+
+  /* Bilingual summary and exam */
+  .study-panel { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; margin-top: 1.5rem; }
+  .study-panel-title { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-cyan); margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.4rem; }
+  .bilingual-summary-ar { font-family: 'Cairo', sans-serif; direction: rtl; text-align: right; color: var(--text-primary); font-size: 1rem; line-height: 1.8; border-right: 3px solid var(--accent-cyan); padding-right: 1rem; margin-bottom: 1rem; }
+  .bilingual-summary-en { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.7; border-left: 3px solid var(--accent-trust); padding-left: 1rem; }
+  .key-points-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+  .key-points-ar { font-family: 'Cairo', sans-serif; direction: rtl; text-align: right; }
+  .key-points-en { }
+  .key-points-ar li, .key-points-en li { font-size: 0.85rem; margin-bottom: 0.4rem; color: var(--text-secondary); }
+  .key-points-ar li::marker { color: var(--accent-cyan); }
+  .key-points-en li::marker { color: var(--accent-trust); }
+
+  /* Exam questions */
+  .exam-question-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem; margin-bottom: 1rem; }
+  .exam-q-type { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-warn); margin-bottom: 0.5rem; }
+  .exam-q-ar { font-family: 'Cairo', sans-serif; direction: rtl; text-align: right; color: var(--text-primary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 0.4rem; }
+  .exam-q-en { color: var(--text-secondary); font-size: 0.82rem; margin-bottom: 0.75rem; }
+  .exam-options { display: flex; flex-direction: column; gap: 0.4rem; }
+  .exam-option {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
+    padding: 0.5rem 0.75rem; cursor: pointer; transition: all 0.2s; font-size: 0.82rem;
+  }
+  .exam-option:hover { border-color: var(--accent-cyan); }
+  .exam-option.selected { border-color: var(--accent-cyan); background: rgba(6,182,212,0.1); }
+  .exam-option.correct  { border-color: var(--accent-trust); background: rgba(16,185,129,0.15); }
+  .exam-option.wrong    { border-color: var(--accent-threat); background: rgba(239,68,68,0.1); }
+  .exam-option .opt-ar  { font-family: 'Cairo', sans-serif; direction: rtl; text-align: right; display: block; }
+  .exam-option .opt-en  { color: var(--text-secondary); font-size: 0.78rem; }
+  .exam-tf-btns { display: flex; gap: 0.75rem; margin-top: 0.5rem; }
+  .exam-tf-btn { flex: 1; padding: 0.5rem; border-radius: 8px; border: 1px solid var(--border); cursor: pointer; font-size: 0.85rem; transition: all 0.2s; background: var(--bg-card); color: var(--text-primary); }
+  .exam-tf-btn:hover { border-color: var(--accent-cyan); }
+  .exam-tf-btn.correct { border-color: var(--accent-trust); background: rgba(16,185,129,0.15); color: var(--accent-trust); }
+  .exam-tf-btn.wrong   { border-color: var(--accent-threat); background: rgba(239,68,68,0.1); color: var(--accent-threat); }
+  .exam-explanation { margin-top: 0.6rem; padding: 0.6rem; background: rgba(6,182,212,0.07); border-radius: 6px; display: none; }
+  .exam-explanation.show { display: block; }
+  .exam-exp-ar { font-family: 'Cairo', sans-serif; direction: rtl; text-align: right; font-size: 0.8rem; color: var(--text-primary); }
+  .exam-exp-en { font-size: 0.77rem; color: var(--text-secondary); }
+  .exam-score-bar { background: var(--bg-secondary); border-radius: 10px; padding: 1rem; display: flex; gap: 1.5rem; align-items: center; margin-bottom: 1rem; }
+  .sort-filter-bar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; align-items: center; }
+  .sort-filter-bar select, .sort-filter-bar input { background: var(--bg-secondary); border: 1px solid var(--border); color: var(--text-primary); border-radius: 8px; padding: 0.35rem 0.7rem; font-size: 0.82rem; }
+  .study-empty { text-align: center; padding: 3rem; color: var(--text-secondary); }
+  .upload-progress { height: 4px; background: var(--bg-secondary); border-radius: 2px; margin-top: 0.75rem; overflow: hidden; display: none; }
+  .upload-progress-bar { height: 100%; background: var(--accent-cyan); border-radius: 2px; transition: width 0.3s; }
+  .ai-loading { display: flex; align-items: center; gap: 0.75rem; padding: 1rem; color: var(--text-secondary); }
+  .ai-loading-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-cyan); animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .demo-banner { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); border-radius: 8px; padding: 0.6rem 1rem; font-size: 0.8rem; color: var(--accent-warn); margin-bottom: 1rem; }
 </style>
 </head>
 <body>
@@ -705,39 +835,45 @@
   <div class="header-logo">
     <div class="logo-icon">🔐</div>
     <div>
-      <div class="logo-text">SNS Security Lab</div>
-      <div class="logo-sub">Dr. Ali Salim — Cybersecurity Engineering</div>
+      <div class="logo-text"><span class="bilingual-wrap"><span class="bilingual-en">SNS Security Lab</span><span class="bilingual-ar">مختبر أمن الشبكات الاجتماعية</span></span></div>
+      <div class="logo-sub"><span class="bilingual-wrap"><span class="bilingual-en">Dr. Ali Salim — Cybersecurity Engineering</span><span class="bilingual-ar">د. علي سالم — هندسة الأمن السيبراني</span></span></div>
     </div>
   </div>
   <div class="header-status">
     <div class="status-dot"></div>
-    SYSTEM ONLINE &nbsp;|&nbsp; <span id="live-clock"></span>
-    &nbsp;|&nbsp; API: <span id="api-status" style="color:var(--text-muted)">CONNECTING…</span>
+    <span class="bilingual-wrap"><span class="bilingual-en">SYSTEM ONLINE</span><span class="bilingual-ar">النظام متصل</span></span> &nbsp;|&nbsp; <span id="live-clock"></span>
+    &nbsp;|&nbsp; API: <span id="api-status" style="color:var(--text-muted)"><span class="bilingual-wrap"><span class="bilingual-en">CONNECTING…</span><span class="bilingual-ar">جار الاتصال…</span></span></span>
   </div>
 </header>
 
 <!-- NAVIGATION -->
 <nav>
   <button class="active" data-page="dashboard" onclick="switchPage('dashboard',this)">
-    📊 Dashboard
+    📊 <span class="bilingual-wrap"><span class="bilingual-en">Dashboard</span><span class="bilingual-ar">لوحة التحكم</span></span>
   </button>
   <button data-page="levenshtein" onclick="switchPage('levenshtein',this)">
-    🔍 Levenshtein Lab
+    🔍 <span class="bilingual-wrap"><span class="bilingual-en">Levenshtein Lab</span><span class="bilingual-ar">مختبر ليفنشتاين</span></span>
   </button>
   <button data-page="phishing" onclick="switchPage('phishing',this)">
-    🎣 Phishing Detector
+    🎣 <span class="bilingual-wrap"><span class="bilingual-en">Phishing Detector</span><span class="bilingual-ar">كاشف التصيد</span></span>
   </button>
   <button data-page="trustrank" onclick="switchPage('trustrank',this)">
-    🌐 TrustRank
+    🌐 <span class="bilingual-wrap"><span class="bilingual-en">TrustRank</span><span class="bilingual-ar">تصنيف الثقة</span></span>
   </button>
   <button data-page="sybil" onclick="switchPage('sybil',this)">
-    👥 Sybil Attacks
+    👥 <span class="bilingual-wrap"><span class="bilingual-en">Sybil Attacks</span><span class="bilingual-ar">هجمات سيبل</span></span>
   </button>
   <button data-page="osint" onclick="switchPage('osint',this)">
-    🕵️ OSINT Toolkit
+    🕵️ <span class="bilingual-wrap"><span class="bilingual-en">OSINT Toolkit</span><span class="bilingual-ar">أدوات الاستخبارات المفتوحة</span></span>
   </button>
   <button data-page="quiz" onclick="switchPage('quiz',this)">
-    📝 Exam Simulator
+    📝 <span class="bilingual-wrap"><span class="bilingual-en">Exam Simulator</span><span class="bilingual-ar">محاكي الامتحان</span></span>
+  </button>
+  <button data-page="algorithms" onclick="switchPage('algorithms',this)">
+    ⚙️ <span class="bilingual-wrap"><span class="bilingual-en">Algorithms</span><span class="bilingual-ar">الخوارزميات</span></span>
+  </button>
+  <button data-page="study" onclick="switchPage('study',this)">
+    📚 <span class="bilingual-wrap"><span class="bilingual-en">Study Center</span><span class="bilingual-ar">مركز الدراسة</span></span>
   </button>
 </nav>
 
@@ -748,33 +884,33 @@
 <!-- ═══════════════════════════════════════════════ -->
 <div class="page active" id="page-dashboard">
   <div class="page-header">
-    <h1>🛡️ Security Operations Dashboard</h1>
-    <p>Overview of Social Networks Security concepts from the curriculum of Assist. Prof. Dr. Ali Salim — Alshaab University, Cybersecurity Engineering Department.</p>
+    <h1>🛡️ <span class="bilingual-wrap"><span class="bilingual-en">Security Operations Dashboard</span><span class="bilingual-ar">لوحة عمليات الأمن</span></span></h1>
+    <p><span class="bilingual-wrap"><span class="bilingual-en">Overview of Social Networks Security concepts from the curriculum of Assist. Prof. Dr. Ali Salim — Alshaab University, Cybersecurity Engineering Department.</span><span class="bilingual-ar">نظرة عامة على مفاهيم أمن الشبكات الاجتماعية من منهج أ.م.د. علي سالم — جامعة الشعب، قسم هندسة الأمن السيبراني</span></span></p>
   </div>
 
   <div class="grid-4" style="margin-bottom:1.5rem">
     <div class="stat-card">
       <div class="stat-value" style="color:var(--accent-threat)">15</div>
-      <div class="stat-label">Exam Questions</div>
+      <div class="stat-label"><span class="bilingual-wrap"><span class="bilingual-en">Exam Questions</span><span class="bilingual-ar">أسئلة الامتحان</span></span></div>
     </div>
     <div class="stat-card">
       <div class="stat-value" style="color:var(--accent-warn)">5</div>
-      <div class="stat-label">Lecture Modules</div>
+      <div class="stat-label"><span class="bilingual-wrap"><span class="bilingual-en">Lecture Modules</span><span class="bilingual-ar">وحدات المحاضرات</span></span></div>
     </div>
     <div class="stat-card">
       <div class="stat-value" style="color:var(--accent-trust)">3</div>
-      <div class="stat-label">Algorithm Labs</div>
+      <div class="stat-label"><span class="bilingual-wrap"><span class="bilingual-en">Algorithm Labs</span><span class="bilingual-ar">مختبرات الخوارزميات</span></span></div>
     </div>
     <div class="stat-card">
       <div class="stat-value" style="color:var(--accent-cyan)">4</div>
-      <div class="stat-label">OSINT Techniques</div>
+      <div class="stat-label"><span class="bilingual-wrap"><span class="bilingual-en">OSINT Techniques</span><span class="bilingual-ar">تقنيات الاستخبارات المفتوحة</span></span></div>
     </div>
   </div>
 
   <div class="grid-2" style="margin-bottom:1.5rem">
     <!-- Social Network Graph -->
     <div class="card">
-      <div class="card-title">⬡ Social Network Graph</div>
+      <div class="card-title">⬡ <span class="bilingual-wrap"><span class="bilingual-en">Social Network Graph</span><span class="bilingual-ar">رسم الشبكة الاجتماعية</span></span></div>
       <svg id="network-canvas" viewBox="0 0 600 340">
         <defs>
           <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
@@ -841,39 +977,39 @@
 
     <!-- Lecture Summary -->
     <div class="card">
-      <div class="card-title">📚 Curriculum Modules</div>
+      <div class="card-title">📚 <span class="bilingual-wrap"><span class="bilingual-en">Curriculum Modules</span><span class="bilingual-ar">وحدات المنهج</span></span></div>
       <div class="metric-row">
-        <span class="metric-name">Lecture 1</span>
-        <span class="metric-value" style="color:var(--accent-info)">Introduction to SNS Security</span>
+        <span class="metric-name"><span class="bilingual-wrap"><span class="bilingual-en">Lecture 1</span><span class="bilingual-ar">المحاضرة ١</span></span></span>
+        <span class="metric-value" style="color:var(--accent-info)"><span class="bilingual-wrap"><span class="bilingual-en">Introduction to SNS Security</span><span class="bilingual-ar">مقدمة في أمن الشبكات الاجتماعية</span></span></span>
       </div>
       <div class="metric-row">
-        <span class="metric-name">Lecture 2</span>
-        <span class="metric-value" style="color:var(--accent-info)">Social Media Platforms & Data Types</span>
+        <span class="metric-name"><span class="bilingual-wrap"><span class="bilingual-en">Lecture 2</span><span class="bilingual-ar">المحاضرة ٢</span></span></span>
+        <span class="metric-value" style="color:var(--accent-info)"><span class="bilingual-wrap"><span class="bilingual-en">Social Media Platforms & Data Types</span><span class="bilingual-ar">منصات التواصل الاجتماعي وأنواع البيانات</span></span></span>
       </div>
       <div class="metric-row">
-        <span class="metric-name">Lecture 3</span>
-        <span class="metric-value" style="color:var(--accent-warn)">Common Security Threats</span>
+        <span class="metric-name"><span class="bilingual-wrap"><span class="bilingual-en">Lecture 3</span><span class="bilingual-ar">المحاضرة ٣</span></span></span>
+        <span class="metric-value" style="color:var(--accent-warn)"><span class="bilingual-wrap"><span class="bilingual-en">Common Security Threats</span><span class="bilingual-ar">التهديدات الأمنية الشائعة</span></span></span>
       </div>
       <div class="metric-row">
-        <span class="metric-name">Lecture 4</span>
-        <span class="metric-value" style="color:var(--accent-trust)">PageRank & TrustRank</span>
+        <span class="metric-name"><span class="bilingual-wrap"><span class="bilingual-en">Lecture 4</span><span class="bilingual-ar">المحاضرة ٤</span></span></span>
+        <span class="metric-value" style="color:var(--accent-trust)"><span class="bilingual-wrap"><span class="bilingual-en">PageRank & TrustRank</span><span class="bilingual-ar">بيج رانك وتصنيف الثقة</span></span></span>
       </div>
       <div class="metric-row">
-        <span class="metric-name">Lecture 5</span>
-        <span class="metric-value" style="color:var(--accent-threat)">Fake Accounts & Malicious Links</span>
+        <span class="metric-name"><span class="bilingual-wrap"><span class="bilingual-en">Lecture 5</span><span class="bilingual-ar">المحاضرة ٥</span></span></span>
+        <span class="metric-value" style="color:var(--accent-threat)"><span class="bilingual-wrap"><span class="bilingual-en">Fake Accounts & Malicious Links</span><span class="bilingual-ar">الحسابات المزيفة والروابط الضارة</span></span></span>
       </div>
       <div class="separator"></div>
-      <div class="card-title" style="margin-top:0">🎯 Key Security Metrics</div>
+      <div class="card-title" style="margin-top:0">🎯 <span class="bilingual-wrap"><span class="bilingual-en">Key Security Metrics</span><span class="bilingual-ar">مقاييس الأمن الرئيسية</span></span></div>
       <div class="metric-row">
-        <span class="metric-name">Levenshtein Threshold (Phishing)</span>
+        <span class="metric-name"><span class="bilingual-wrap"><span class="bilingual-en">Levenshtein Threshold (Phishing)</span><span class="bilingual-ar">عتبة ليفنشتاين (التصيد)</span></span></span>
         <span class="metric-value" style="color:var(--accent-warn)">> 70% Similarity → BLOCK</span>
       </div>
       <div class="metric-row">
-        <span class="metric-name">Damping Factor (TrustRank)</span>
+        <span class="metric-name"><span class="bilingual-wrap"><span class="bilingual-en">Damping Factor (TrustRank)</span><span class="bilingual-ar">معامل التخميد (تصنيف الثقة)</span></span></span>
         <span class="metric-value" style="color:var(--accent-cyan)">d = 0.85</span>
       </div>
       <div class="metric-row">
-        <span class="metric-name">TrustRank Convergence</span>
+        <span class="metric-name"><span class="bilingual-wrap"><span class="bilingual-en">TrustRank Convergence</span><span class="bilingual-ar">تقارب تصنيف الثقة</span></span></span>
         <span class="metric-value" style="color:var(--accent-trust)">20–50 Iterations</span>
       </div>
     </div>
@@ -881,22 +1017,22 @@
 
   <!-- Quick Access -->
   <div class="card">
-    <div class="card-title">⚡ Quick Access — Interactive Labs</div>
+    <div class="card-title">⚡ <span class="bilingual-wrap"><span class="bilingual-en">Quick Access — Interactive Labs</span><span class="bilingual-ar">وصول سريع — المختبرات التفاعلية</span></span></div>
     <div class="grid-3">
       <div style="padding:1rem;background:var(--bg-secondary);border-radius:10px;border:1px solid var(--border);cursor:pointer;transition:all 0.2s" onclick="switchPage('levenshtein',document.querySelector('[data-page=levenshtein]'))" onmouseover="this.style.borderColor='var(--accent-trust)'" onmouseout="this.style.borderColor='var(--border)'">
         <div style="font-size:24px;margin-bottom:8px">🔢</div>
-        <div style="font-weight:700;margin-bottom:4px">Levenshtein Matrix</div>
-        <div style="font-size:12px;color:var(--text-muted)">Interactive step-by-step DP matrix builder for phishing detection</div>
+        <div style="font-weight:700;margin-bottom:4px"><span class="bilingual-wrap"><span class="bilingual-en">Levenshtein Matrix</span><span class="bilingual-ar">مصفوفة ليفنشتاين</span></span></div>
+        <div style="font-size:12px;color:var(--text-muted)"><span class="bilingual-wrap"><span class="bilingual-en">Interactive step-by-step DP matrix builder for phishing detection</span><span class="bilingual-ar">منشئ مصفوفة البرمجة الديناميكية للكشف عن التصيد</span></span></div>
       </div>
       <div style="padding:1rem;background:var(--bg-secondary);border-radius:10px;border:1px solid var(--border);cursor:pointer;transition:all 0.2s" onclick="switchPage('trustrank',document.querySelector('[data-page=trustrank]'))" onmouseover="this.style.borderColor='var(--accent-cyan)'" onmouseout="this.style.borderColor='var(--border)'">
         <div style="font-size:24px;margin-bottom:8px">🌐</div>
-        <div style="font-weight:700;margin-bottom:4px">TrustRank Visualizer</div>
-        <div style="font-size:12px;color:var(--text-muted)">Compute trust propagation from seed nodes with step-by-step output</div>
+        <div style="font-weight:700;margin-bottom:4px"><span class="bilingual-wrap"><span class="bilingual-en">TrustRank Visualizer</span><span class="bilingual-ar">مرئي تصنيف الثقة</span></span></div>
+        <div style="font-size:12px;color:var(--text-muted)"><span class="bilingual-wrap"><span class="bilingual-en">Compute trust propagation from seed nodes with step-by-step output</span><span class="bilingual-ar">احسب انتشار الثقة من العقد البذرية مع إخراج خطوة بخطوة</span></span></div>
       </div>
       <div style="padding:1rem;background:var(--bg-secondary);border-radius:10px;border:1px solid var(--border);cursor:pointer;transition:all 0.2s" onclick="switchPage('quiz',document.querySelector('[data-page=quiz]'))" onmouseover="this.style.borderColor='var(--accent-warn)'" onmouseout="this.style.borderColor='var(--border)'">
         <div style="font-size:24px;margin-bottom:8px">📝</div>
-        <div style="font-weight:700;margin-bottom:4px">Exam Simulator</div>
-        <div style="font-size:12px;color:var(--text-muted)">15-question randomized quiz covering all lecture topics</div>
+        <div style="font-weight:700;margin-bottom:4px"><span class="bilingual-wrap"><span class="bilingual-en">Exam Simulator</span><span class="bilingual-ar">محاكي الامتحان</span></span></div>
+        <div style="font-size:12px;color:var(--text-muted)"><span class="bilingual-wrap"><span class="bilingual-en">15-question randomized quiz covering all lecture topics</span><span class="bilingual-ar">اختبار عشوائي من ١٥ سؤالاً يغطي جميع موضوعات المحاضرات</span></span></div>
       </div>
     </div>
   </div>
@@ -907,23 +1043,23 @@
 <!-- ═══════════════════════════════════════════════ -->
 <div class="page" id="page-levenshtein">
   <div class="page-header">
-    <h1>🔍 Levenshtein Distance — Algorithm Playground</h1>
-    <p>Compute the edit distance between two strings in real-time. Used in phishing detection to identify typosquatted domains. <span class="badge badge-info">Dynamic Programming</span></p>
+    <h1>🔍 <span class="bilingual-wrap"><span class="bilingual-en">Levenshtein Distance — Algorithm Playground</span><span class="bilingual-ar">مختبر مسافة ليفنشتاين — ملعب الخوارزميات</span></span></h1>
+    <p><span class="bilingual-wrap"><span class="bilingual-en">Compute the edit distance between two strings in real-time. Used in phishing detection to identify typosquatted domains.</span><span class="bilingual-ar">احسب مسافة التحرير بين سلسلتين في الوقت الحقيقي. تُستخدم في الكشف عن التصيد لتحديد النطاقات المزورة.</span></span> <span class="badge badge-info">Dynamic Programming</span></p>
   </div>
 
   <div class="grid-2" style="margin-bottom:1.5rem">
     <div class="card">
-      <div class="card-title">⚙️ Input Strings</div>
+      <div class="card-title">⚙️ <span class="bilingual-wrap"><span class="bilingual-en">Input Strings</span><span class="bilingual-ar">السلاسل المدخلة</span></span></div>
       <div class="input-group">
-        <label>Source String (S) — Real Domain</label>
+        <label><span class="bilingual-wrap"><span class="bilingual-en">Source String (S) — Real Domain</span><span class="bilingual-ar">السلسلة المصدر (س) — النطاق الحقيقي</span></span></label>
         <input type="text" id="lev-source" value="facebook" placeholder="e.g. facebook" oninput="lev_update()">
       </div>
       <div class="input-group">
-        <label>Target String (T) — Suspect Domain</label>
+        <label><span class="bilingual-wrap"><span class="bilingual-en">Target String (T) — Suspect Domain</span><span class="bilingual-ar">السلسلة الهدف (ه) — النطاق المشبوه</span></span></label>
         <input type="text" id="lev-target" value="faceb00k" placeholder="e.g. faceb00k" oninput="lev_update()">
       </div>
       <div style="display:flex;gap:0.5rem">
-        <button id="lev-compute-btn" class="btn btn-primary" onclick="lev_compute()">⚡ Compute Matrix</button>
+        <button id="lev-compute-btn" class="btn btn-primary" onclick="lev_compute()">⚡ <span class="bilingual-wrap"><span class="bilingual-en">Compute Matrix</span><span class="bilingual-ar">احسب المصفوفة</span></span></button>
         <button class="btn btn-ghost" onclick="lev_preset('facebook','faceb00k')">Example 1</button>
         <button class="btn btn-ghost" onclick="lev_preset('fly','f1y')">Example 2</button>
         <button class="btn btn-ghost" onclick="lev_preset('paypal','paypa1')">Example 3</button>
@@ -943,10 +1079,10 @@
 
 <span class="highlight">Similarity</span> = 1 - D(S,T) / max(|S|, |T|)</div>
       <div id="lev-stats" class="grid-4" style="margin-top:0.5rem">
-        <div class="stat-card"><div class="stat-value" id="stat-distance" style="color:var(--accent-warn)">—</div><div class="stat-label">Distance</div></div>
-        <div class="stat-card"><div class="stat-value" id="stat-sim" style="color:var(--accent-trust)">—</div><div class="stat-label">Similarity</div></div>
-        <div class="stat-card"><div class="stat-value" id="stat-slen" style="color:var(--accent-info)">—</div><div class="stat-label">|S| Length</div></div>
-        <div class="stat-card"><div class="stat-value" id="stat-tlen" style="color:var(--accent-info)">—</div><div class="stat-label">|T| Length</div></div>
+        <div class="stat-card"><div class="stat-value" id="stat-distance" style="color:var(--accent-warn)">—</div><div class="stat-label"><span class="bilingual-wrap"><span class="bilingual-en">Distance</span><span class="bilingual-ar">المسافة</span></span></div></div>
+        <div class="stat-card"><div class="stat-value" id="stat-sim" style="color:var(--accent-trust)">—</div><div class="stat-label"><span class="bilingual-wrap"><span class="bilingual-en">Similarity</span><span class="bilingual-ar">التشابه</span></span></div></div>
+        <div class="stat-card"><div class="stat-value" id="stat-slen" style="color:var(--accent-info)">—</div><div class="stat-label"><span class="bilingual-wrap"><span class="bilingual-en">|S| Length</span><span class="bilingual-ar">طول |س|</span></span></div></div>
+        <div class="stat-card"><div class="stat-value" id="stat-tlen" style="color:var(--accent-info)">—</div><div class="stat-label"><span class="bilingual-wrap"><span class="bilingual-en">|T| Length</span><span class="bilingual-ar">طول |ه|</span></span></div></div>
       </div>
     </div>
   </div>
@@ -954,7 +1090,7 @@
   <!-- Matrix Output -->
   <div class="card" id="lev-matrix-card" style="display:none">
     <div class="card-title" style="justify-content:space-between">
-      <span>🧮 Dynamic Programming Matrix</span>
+      <span>🧮 <span class="bilingual-wrap"><span class="bilingual-en">Dynamic Programming Matrix</span><span class="bilingual-ar">مصفوفة البرمجة الديناميكية</span></span></span>
       <span id="lev-verdict" class="badge"></span>
     </div>
     <div class="matrix-table-wrapper" id="lev-matrix-output"></div>
@@ -964,7 +1100,7 @@
 
   <!-- Step Log -->
   <div class="card section-gap" id="lev-steps-card" style="display:none">
-    <div class="card-title">🪜 Step-by-Step Diagonal Trace</div>
+    <div class="card-title">🪜 <span class="bilingual-wrap"><span class="bilingual-en">Step-by-Step Diagonal Trace</span><span class="bilingual-ar">تتبع القطر خطوة بخطوة</span></span></div>
     <div id="lev-steps-log" style="max-height:280px;overflow-y:auto;font-family:var(--font-mono);font-size:12px;line-height:2"></div>
   </div>
 </div>
@@ -974,31 +1110,31 @@
 <!-- ═══════════════════════════════════════════════ -->
 <div class="page" id="page-phishing">
   <div class="page-header">
-    <h1>🎣 Phishing URL Detector</h1>
-    <p>Enter a URL to analyze it for phishing indicators: homoglyphs, HTTPS absence, and Levenshtein similarity against known legitimate domains. <span class="badge badge-threat">Threat Analysis</span></p>
+    <h1>🎣 <span class="bilingual-wrap"><span class="bilingual-en">Phishing URL Detector</span><span class="bilingual-ar">كاشف روابط التصيد</span></span></h1>
+    <p><span class="bilingual-wrap"><span class="bilingual-en">Enter a URL to analyze it for phishing indicators: homoglyphs, HTTPS absence, and Levenshtein similarity against known legitimate domains.</span><span class="bilingual-ar">أدخل رابطاً لتحليله للكشف عن مؤشرات التصيد: الأحرف المتشابهة وغياب HTTPS والتشابه مع النطاقات المشروعة.</span></span> <span class="badge badge-threat">Threat Analysis</span></p>
   </div>
 
   <div class="grid-2">
     <div class="card">
-      <div class="card-title">🔗 URL Analysis</div>
+      <div class="card-title">🔗 <span class="bilingual-wrap"><span class="bilingual-en">URL Analysis</span><span class="bilingual-ar">تحليل الرابط</span></span></div>
       <div class="input-group">
-        <label>Suspected URL</label>
+        <label><span class="bilingual-wrap"><span class="bilingual-en">Suspected URL</span><span class="bilingual-ar">الرابط المشبوه</span></span></label>
         <input type="text" id="phish-url" value="http://www.faceb00k-login.com" placeholder="https://example.com">
       </div>
       <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
-        <button class="btn btn-danger" onclick="analyzePhishing()">🔍 Analyze URL</button>
+        <button class="btn btn-danger" onclick="analyzePhishing()">🔍 <span class="bilingual-wrap"><span class="bilingual-en">Analyze URL</span><span class="bilingual-ar">تحليل الرابط</span></span></button>
         <button class="btn btn-ghost" onclick="document.getElementById('phish-url').value='http://www.faceb00k-login.com'">Phishing Ex.</button>
         <button class="btn btn-ghost" onclick="document.getElementById('phish-url').value='https://www.google.com'">Safe Ex.</button>
         <button class="btn btn-ghost" onclick="document.getElementById('phish-url').value='http://g00gle.com/login'">Typosquat Ex.</button>
       </div>
 
       <div class="separator"></div>
-      <div class="card-title">⚠️ Known Phishing Examples</div>
+      <div class="card-title">⚠️ <span class="bilingual-wrap"><span class="bilingual-en">Known Phishing Examples</span><span class="bilingual-ar">أمثلة تصيد معروفة</span></span></div>
       <div id="phishing-examples-list"></div>
     </div>
 
     <div class="card">
-      <div class="card-title">📋 Analysis Report</div>
+      <div class="card-title">📋 <span class="bilingual-wrap"><span class="bilingual-en">Analysis Report</span><span class="bilingual-ar">تقرير التحليل</span></span></div>
       <div id="phish-result">
         <div style="color:var(--text-muted);text-align:center;padding:3rem;font-family:var(--font-mono);font-size:13px">
           ► Enter a URL and click Analyze to see the threat report
@@ -1009,22 +1145,22 @@
 
   <!-- Technique Explanation -->
   <div class="card section-gap">
-    <div class="card-title">🧠 Detection Techniques Used</div>
+    <div class="card-title">🧠 <span class="bilingual-wrap"><span class="bilingual-en">Detection Techniques Used</span><span class="bilingual-ar">تقنيات الكشف المستخدمة</span></span></div>
     <div class="grid-3">
       <div style="padding:1rem;border-radius:8px;background:var(--bg-secondary);border:1px solid var(--border)">
         <div style="font-size:18px;margin-bottom:8px">🔡</div>
-        <div style="font-weight:700;font-size:14px;margin-bottom:6px;color:var(--accent-warn)">Homoglyph Detection</div>
-        <div style="font-size:13px;color:var(--text-secondary)">Scans for lookalike characters: <code style="color:var(--accent-threat)">0→o, 1→l, @→a</code> that visually mimic legitimate domains.</div>
+        <div style="font-weight:700;font-size:14px;margin-bottom:6px;color:var(--accent-warn)"><span class="bilingual-wrap"><span class="bilingual-en">Homoglyph Detection</span><span class="bilingual-ar">كشف الأحرف المتشابهة</span></span></div>
+        <div style="font-size:13px;color:var(--text-secondary)"><span class="bilingual-wrap"><span class="bilingual-en">Scans for lookalike characters: <code style="color:var(--accent-threat)">0→o, 1→l, @→a</code> that visually mimic legitimate domains.</span><span class="bilingual-ar">يفحص الأحرف المتشابهة بصرياً التي تحاكي النطاقات المشروعة.</span></span></div>
       </div>
       <div style="padding:1rem;border-radius:8px;background:var(--bg-secondary);border:1px solid var(--border)">
         <div style="font-size:18px;margin-bottom:8px">📏</div>
-        <div style="font-weight:700;font-size:14px;margin-bottom:6px;color:var(--accent-warn)">Levenshtein Similarity</div>
-        <div style="font-size:13px;color:var(--text-secondary)">Compares domain against 10 major domains. Similarity ≥ 70% with a different string triggers a HIGH or CRITICAL alert.</div>
+        <div style="font-weight:700;font-size:14px;margin-bottom:6px;color:var(--accent-warn)"><span class="bilingual-wrap"><span class="bilingual-en">Levenshtein Similarity</span><span class="bilingual-ar">تشابه ليفنشتاين</span></span></div>
+        <div style="font-size:13px;color:var(--text-secondary)"><span class="bilingual-wrap"><span class="bilingual-en">Compares domain against 10 major domains. Similarity ≥ 70% with a different string triggers a HIGH or CRITICAL alert.</span><span class="bilingual-ar">يقارن النطاق مع ١٠ نطاقات رئيسية. التشابه ≥ ٧٠٪ يُطلق تنبيه عالي أو حرج.</span></span></div>
       </div>
       <div style="padding:1rem;border-radius:8px;background:var(--bg-secondary);border:1px solid var(--border)">
         <div style="font-size:18px;margin-bottom:8px">🔒</div>
-        <div style="font-weight:700;font-size:14px;margin-bottom:6px;color:var(--accent-warn)">HTTPS Validation</div>
-        <div style="font-size:13px;color:var(--text-secondary)">Checks for the presence of HTTPS. HTTP-only pages transmit data unencrypted, a strong phishing indicator.</div>
+        <div style="font-weight:700;font-size:14px;margin-bottom:6px;color:var(--accent-warn)"><span class="bilingual-wrap"><span class="bilingual-en">HTTPS Validation</span><span class="bilingual-ar">التحقق من HTTPS</span></span></div>
+        <div style="font-size:13px;color:var(--text-secondary)"><span class="bilingual-wrap"><span class="bilingual-en">Checks for the presence of HTTPS. HTTP-only pages transmit data unencrypted, a strong phishing indicator.</span><span class="bilingual-ar">يتحقق من وجود HTTPS. صفحات HTTP فقط تنقل البيانات غير مشفرة، وهي مؤشر قوي للتصيد.</span></span></div>
       </div>
     </div>
   </div>
@@ -1035,13 +1171,13 @@
 <!-- ═══════════════════════════════════════════════ -->
 <div class="page" id="page-trustrank">
   <div class="page-header">
-    <h1>🌐 TrustRank Visualizer</h1>
-    <p>Simulate Google's TrustRank algorithm. Select seed nodes, set the damping factor, and compute how trust propagates through the graph. <span class="badge badge-trust">Dr. Ali Salim — Lecture 4</span></p>
+    <h1>🌐 <span class="bilingual-wrap"><span class="bilingual-en">TrustRank Visualizer</span><span class="bilingual-ar">مرئي تصنيف الثقة</span></span></h1>
+    <p><span class="bilingual-wrap"><span class="bilingual-en">Simulate Google's TrustRank algorithm. Select seed nodes, set the damping factor, and compute how trust propagates through the graph.</span><span class="bilingual-ar">محاكاة خوارزمية TrustRank من جوجل. اختر العقد البذرية وحدد معامل التخميد واحسب انتشار الثقة في الرسم البياني.</span></span> <span class="badge badge-trust">Dr. Ali Salim — Lecture 4</span></p>
   </div>
 
   <div class="grid-2">
     <div class="card">
-      <div class="card-title">⚙️ TrustRank Parameters</div>
+      <div class="card-title">⚙️ <span class="bilingual-wrap"><span class="bilingual-en">TrustRank Parameters</span><span class="bilingual-ar">معاملات تصنيف الثقة</span></span></div>
       <div class="formula">
 <span class="var">T</span>(<span class="highlight">p</span>) = (1 - <span class="highlight">d</span>) × <span class="num">1</span><sub>p∈S</sub>/|S| + <span class="highlight">d</span> × Σ<sub>q→p</sub> <span class="var">T</span>(<span class="highlight">q</span>) / <span class="var">L</span>(<span class="highlight">q</span>)
 
@@ -1052,17 +1188,17 @@ Where:
   <span class="num">1</span><sub>p∈S</sub> = 1 if p is a seed, 0 otherwise</div>
 
       <div class="input-group">
-        <label>Damping Factor (d)</label>
+        <label><span class="bilingual-wrap"><span class="bilingual-en">Damping Factor (d)</span><span class="bilingual-ar">معامل التخميد (d)</span></span></label>
         <input type="number" id="tr-damping" value="0.85" min="0" max="1" step="0.05">
       </div>
       <div class="input-group">
-        <label>Seed Nodes (comma-separated IDs)</label>
+        <label><span class="bilingual-wrap"><span class="bilingual-en">Seed Nodes (comma-separated IDs)</span><span class="bilingual-ar">العقد البذرية (معرّفات مفصولة بفاصلة)</span></span></label>
         <input type="text" id="tr-seeds" value="A" placeholder="A,B">
       </div>
-      <button class="btn btn-primary" onclick="computeTrustRank()">▶ Run TrustRank</button>
+      <button class="btn btn-primary" onclick="computeTrustRank()">▶ <span class="bilingual-wrap"><span class="bilingual-en">Run TrustRank</span><span class="bilingual-ar">تشغيل الخوارزمية</span></span></button>
 
       <div class="separator"></div>
-      <div class="card-title">📊 Graph Structure (5-Page Example)</div>
+      <div class="card-title">📊 <span class="bilingual-wrap"><span class="bilingual-en">Graph Structure (5-Page Example)</span><span class="bilingual-ar">هيكل الرسم البياني (مثال ٥ صفحات)</span></span></div>
       <div class="code-block">
 A (SEED) → B, C
 B        → C, D
@@ -1072,7 +1208,7 @@ E        → D   ← (D↔E loop)</div>
     </div>
 
     <div class="card">
-      <div class="card-title">🌿 Trust Score Visualization</div>
+      <div class="card-title">🌿 <span class="bilingual-wrap"><span class="bilingual-en">Trust Score Visualization</span><span class="bilingual-ar">مرئيات درجة الثقة</span></span></div>
       <div id="trustrank-bars">
         <div style="color:var(--text-muted);font-family:var(--font-mono);font-size:13px;padding:2rem;text-align:center">
           ► Click "Run TrustRank" to compute scores
@@ -1083,16 +1219,16 @@ E        → D   ← (D↔E loop)</div>
 
   <!-- Results Table -->
   <div class="card section-gap" id="tr-results-card" style="display:none">
-    <div class="card-title">📋 Computation Log — Iteration 1</div>
+    <div class="card-title">📋 <span class="bilingual-wrap"><span class="bilingual-en">Computation Log — Iteration 1</span><span class="bilingual-ar">سجل الحساب — التكرار ١</span></span></div>
     <div id="tr-computation-log" class="code-block" style="max-height:350px;overflow-y:auto"></div>
     <div class="separator"></div>
     <div class="grid-2">
       <div>
-        <div class="card-title">🔑 Key Insights</div>
+        <div class="card-title">🔑 <span class="bilingual-wrap"><span class="bilingual-en">Key Insights</span><span class="bilingual-ar">الرؤى الرئيسية</span></span></div>
         <div id="tr-insights" style="font-size:13px;color:var(--text-secondary);line-height:1.8"></div>
       </div>
       <div>
-        <div class="card-title">📊 Sum Verification</div>
+        <div class="card-title">📊 <span class="bilingual-wrap"><span class="bilingual-en">Sum Verification</span><span class="bilingual-ar">التحقق من المجموع</span></span></div>
         <div id="tr-sum-verify" class="result-panel safe"></div>
       </div>
     </div>
@@ -1100,10 +1236,10 @@ E        → D   ← (D↔E loop)</div>
 
   <!-- TrustRank vs PageRank comparison -->
   <div class="card section-gap">
-    <div class="card-title">⚔️ PageRank vs TrustRank — Key Differences</div>
+    <div class="card-title">⚔️ <span class="bilingual-wrap"><span class="bilingual-en">PageRank vs TrustRank — Key Differences</span><span class="bilingual-ar">بيج رانك مقابل تصنيف الثقة — الفروق الرئيسية</span></span></div>
     <div class="grid-2">
       <div style="padding:1rem;border-radius:8px;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2)">
-        <div style="font-weight:700;color:var(--accent-threat);margin-bottom:10px;font-family:var(--font-display);font-size:13px">📉 PAGERANK — Vulnerable</div>
+        <div style="font-weight:700;color:var(--accent-threat);margin-bottom:10px;font-family:var(--font-display);font-size:13px">📉 <span class="bilingual-wrap"><span class="bilingual-en">PAGERANK — Vulnerable</span><span class="bilingual-ar">بيج رانك — قابل للاختراق</span></span></div>
         <div style="font-size:13px;color:var(--text-secondary);line-height:1.8">
           • Teleports to <strong>any random page</strong> in the entire web<br>
           • Can be manipulated by <strong>link farms</strong><br>
@@ -1112,7 +1248,7 @@ E        → D   ← (D↔E loop)</div>
         </div>
       </div>
       <div style="padding:1rem;border-radius:8px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2)">
-        <div style="font-weight:700;color:var(--accent-trust);margin-bottom:10px;font-family:var(--font-display);font-size:13px">✅ TRUSTRANK — Hardened</div>
+        <div style="font-weight:700;color:var(--accent-trust);margin-bottom:10px;font-family:var(--font-display);font-size:13px">✅ <span class="bilingual-wrap"><span class="bilingual-en">TRUSTRANK — Hardened</span><span class="bilingual-ar">تصنيف الثقة — محصّن</span></span></div>
         <div style="font-size:13px;color:var(--text-secondary);line-height:1.8">
           • Teleports only to <strong>manually verified seed pages</strong><br>
           • Trust degrades the further from seeds<br>
@@ -1129,14 +1265,14 @@ E        → D   ← (D↔E loop)</div>
 <!-- ═══════════════════════════════════════════════ -->
 <div class="page" id="page-sybil">
   <div class="page-header">
-    <h1>👥 Sybil Attack Analyzer</h1>
-    <p>Understand the anatomy of Sybil attacks — fake account propagation through social trust networks. <span class="badge badge-threat">Lecture 3 & 5</span></p>
+    <h1>👥 <span class="bilingual-wrap"><span class="bilingual-en">Sybil Attack Analyzer</span><span class="bilingual-ar">كاشف هجمات سيبل</span></span></h1>
+    <p><span class="bilingual-wrap"><span class="bilingual-en">Understand the anatomy of Sybil attacks — fake account propagation through social trust networks.</span><span class="bilingual-ar">افهم تشريح هجمات سيبل — انتشار الحسابات المزيفة عبر شبكات الثقة الاجتماعية.</span></span> <span class="badge badge-threat">Lecture 3 & 5</span></p>
   </div>
 
   <div class="grid-2" style="margin-bottom:1.5rem">
     <!-- Attack Tree -->
     <div class="card">
-      <div class="card-title">🌳 Sybil Attack Propagation Tree</div>
+      <div class="card-title">🌳 <span class="bilingual-wrap"><span class="bilingual-en">Sybil Attack Propagation Tree</span><span class="bilingual-ar">شجرة انتشار هجوم سيبل</span></span></div>
       <div class="sybil-tree">
         <div class="tree-level">
           <div class="tree-node source" onclick="showSybilInfo('source')">
@@ -1166,7 +1302,7 @@ E        → D   ← (D↔E loop)</div>
 
     <!-- Info Panel -->
     <div class="card">
-      <div class="card-title" id="sybil-panel-title">🔍 Node Information</div>
+      <div class="card-title" id="sybil-panel-title">🔍 <span class="bilingual-wrap"><span class="bilingual-en">Node Information</span><span class="bilingual-ar">معلومات العقدة</span></span></div>
       <div id="sybil-panel-content" style="font-size:14px;color:var(--text-secondary);line-height:1.8">
         <div style="color:var(--text-muted);font-family:var(--font-mono);font-size:13px;padding:2rem;text-align:center">
           ► Click on a node in the tree to see its role in the Sybil attack lifecycle
@@ -1177,10 +1313,10 @@ E        → D   ← (D↔E loop)</div>
 
   <!-- Detection Methods -->
   <div class="card">
-    <div class="card-title">🔬 Graph-Based Detection Methods</div>
+    <div class="card-title">🔬 <span class="bilingual-wrap"><span class="bilingual-en">Graph-Based Detection Methods</span><span class="bilingual-ar">طرق الكشف القائمة على الرسم البياني</span></span></div>
     <div class="grid-3">
       <div style="padding:1.2rem;border-radius:10px;background:var(--bg-secondary);border:1px solid var(--border)">
-        <div style="font-weight:700;color:var(--accent-cyan);margin-bottom:10px">📐 Clustering Coefficient</div>
+        <div style="font-weight:700;color:var(--accent-cyan);margin-bottom:10px">📐 <span class="bilingual-wrap"><span class="bilingual-en">Clustering Coefficient</span><span class="bilingual-ar">معامل التجميع</span></span></div>
         <div style="font-size:13px;color:var(--text-secondary);line-height:1.7">
           Real social circles are "incestuous" — your friends know each other. 
           Fake bot networks <strong style="color:var(--accent-warn)">lack cross-links</strong>, producing a very low clustering coefficient.
@@ -1189,7 +1325,7 @@ E        → D   ← (D↔E loop)</div>
         </div>
       </div>
       <div style="padding:1.2rem;border-radius:10px;background:var(--bg-secondary);border:1px solid var(--border)">
-        <div style="font-weight:700;color:var(--accent-cyan);margin-bottom:10px">📈 Expansion Rate</div>
+        <div style="font-weight:700;color:var(--accent-cyan);margin-bottom:10px">📈 <span class="bilingual-wrap"><span class="bilingual-en">Expansion Rate</span><span class="bilingual-ar">معدل التوسع</span></span></div>
         <div style="font-size:13px;color:var(--text-secondary);line-height:1.7">
           If a node connects to 100 people (First Hop) with <strong style="color:var(--accent-warn)">zero mutual friends</strong> but reaches 10,000 at Second Hop — it triggers an <strong>artificial amplification flag</strong>.
           <br><br>
@@ -1197,7 +1333,7 @@ E        → D   ← (D↔E loop)</div>
         </div>
       </div>
       <div style="padding:1.2rem;border-radius:10px;background:var(--bg-secondary);border:1px solid var(--border)">
-        <div style="font-weight:700;color:var(--accent-cyan);margin-bottom:10px">📏 Path Length</div>
+        <div style="font-weight:700;color:var(--accent-cyan);margin-bottom:10px">📏 <span class="bilingual-wrap"><span class="bilingual-en">Path Length</span><span class="bilingual-ar">طول المسار</span></span></div>
         <div style="font-size:13px;color:var(--text-secondary);line-height:1.7">
           If the Source Node is only <strong>2 hops from many unrelated groups</strong>, it indicates a coordinated campaign to spread misinformation or spam across the network.
           <br><br>
@@ -1206,14 +1342,14 @@ E        → D   ← (D↔E loop)</div>
       </div>
     </div>
     <div class="separator"></div>
-    <div class="card-title">📋 Sybil Attack Lifecycle</div>
+    <div class="card-title">📋 <span class="bilingual-wrap"><span class="bilingual-en">Sybil Attack Lifecycle</span><span class="bilingual-ar">دورة حياة هجوم سيبل</span></span></div>
     <div style="overflow-x:auto">
       <table style="width:100%;border-collapse:collapse;font-size:13px">
         <thead>
           <tr style="background:var(--bg-secondary)">
-            <th style="padding:10px 14px;text-align:left;border:1px solid var(--border);color:var(--accent-cyan)">Stage</th>
-            <th style="padding:10px 14px;text-align:left;border:1px solid var(--border);color:var(--accent-cyan)">Action</th>
-            <th style="padding:10px 14px;text-align:left;border:1px solid var(--border);color:var(--accent-cyan)">Security Context</th>
+            <th style="padding:10px 14px;text-align:left;border:1px solid var(--border);color:var(--accent-cyan)"><span class="bilingual-wrap"><span class="bilingual-en">Stage</span><span class="bilingual-ar">المرحلة</span></span></th>
+            <th style="padding:10px 14px;text-align:left;border:1px solid var(--border);color:var(--accent-cyan)"><span class="bilingual-wrap"><span class="bilingual-en">Action</span><span class="bilingual-ar">الإجراء</span></span></th>
+            <th style="padding:10px 14px;text-align:left;border:1px solid var(--border);color:var(--accent-cyan)"><span class="bilingual-wrap"><span class="bilingual-en">Security Context</span><span class="bilingual-ar">السياق الأمني</span></span></th>
           </tr>
         </thead>
         <tbody>
@@ -1232,8 +1368,8 @@ E        → D   ← (D↔E loop)</div>
 <!-- ═══════════════════════════════════════════════ -->
 <div class="page" id="page-osint">
   <div class="page-header">
-    <h1>🕵️ OSINT Toolkit — Open Source Intelligence</h1>
-    <p>Educational reference for OSINT techniques applicable to social media forensics. As discussed in Lecture 2 of Dr. Ali Salim's curriculum. <span class="badge badge-warn">Educational Use Only</span></p>
+    <h1>🕵️ <span class="bilingual-wrap"><span class="bilingual-en">OSINT Toolkit — Open Source Intelligence</span><span class="bilingual-ar">أدوات الاستخبارات المفتوحة</span></span></h1>
+    <p><span class="bilingual-wrap"><span class="bilingual-en">Educational reference for OSINT techniques applicable to social media forensics. As discussed in Lecture 2 of Dr. Ali Salim's curriculum.</span><span class="bilingual-ar">مرجع تعليمي لتقنيات الاستخبارات المفتوحة المطبّقة في الجنائيات الرقمية لوسائل التواصل الاجتماعي. من منهج المحاضرة الثانية للدكتور علي سالم.</span></span> <span class="badge badge-warn">Educational Use Only</span></p>
   </div>
 
   <div class="grid-2" style="margin-bottom:1.5rem" id="osint-cards-container">
@@ -1242,15 +1378,15 @@ E        → D   ← (D↔E loop)</div>
 
   <!-- Photo Data Points Table -->
   <div class="card">
-    <div class="card-title">📸 "A Photo is Worth a Thousand Data Points" — Intelligence Summary</div>
+    <div class="card-title">📸 <span class="bilingual-wrap"><span class="bilingual-en">"A Photo is Worth a Thousand Data Points" — Intelligence Summary</span><span class="bilingual-ar">"صورة تساوي ألف نقطة بيانات" — ملخص الاستخبارات</span></span></div>
     <div style="overflow-x:auto">
       <table style="width:100%;border-collapse:collapse;font-size:13px">
         <thead>
           <tr style="background:var(--bg-secondary)">
-            <th style="padding:10px 14px;border:1px solid var(--border);color:var(--accent-cyan);text-align:left">Category</th>
-            <th style="padding:10px 14px;border:1px solid var(--border);color:var(--accent-cyan);text-align:left">Visual Indicator</th>
-            <th style="padding:10px 14px;border:1px solid var(--border);color:var(--accent-cyan);text-align:left">Intelligence Extracted</th>
-            <th style="padding:10px 14px;border:1px solid var(--border);color:var(--accent-cyan);text-align:left">Risk</th>
+            <th style="padding:10px 14px;border:1px solid var(--border);color:var(--accent-cyan);text-align:left"><span class="bilingual-wrap"><span class="bilingual-en">Category</span><span class="bilingual-ar">الفئة</span></span></th>
+            <th style="padding:10px 14px;border:1px solid var(--border);color:var(--accent-cyan);text-align:left"><span class="bilingual-wrap"><span class="bilingual-en">Visual Indicator</span><span class="bilingual-ar">المؤشر البصري</span></span></th>
+            <th style="padding:10px 14px;border:1px solid var(--border);color:var(--accent-cyan);text-align:left"><span class="bilingual-wrap"><span class="bilingual-en">Intelligence Extracted</span><span class="bilingual-ar">الاستخبارات المستخرجة</span></span></th>
+            <th style="padding:10px 14px;border:1px solid var(--border);color:var(--accent-cyan);text-align:left"><span class="bilingual-wrap"><span class="bilingual-en">Risk</span><span class="bilingual-ar">المخاطر</span></span></th>
           </tr>
         </thead>
         <tbody>
@@ -1295,57 +1431,57 @@ E        → D   ← (D↔E loop)</div>
 <!-- ═══════════════════════════════════════════════ -->
 <div class="page" id="page-quiz">
   <div class="page-header">
-    <h1>📝 Exam Simulator — Social Networks Security</h1>
-    <p>Randomized quiz based on the curriculum of Assist. Prof. Dr. Ali Salim — Alshaab University, 3rd Year / 2nd Semester. <span class="badge badge-info">15 Questions Available</span></p>
+    <h1>📝 <span class="bilingual-wrap"><span class="bilingual-en">Exam Simulator — Social Networks Security</span><span class="bilingual-ar">محاكي الامتحان — أمن الشبكات الاجتماعية</span></span></h1>
+    <p><span class="bilingual-wrap"><span class="bilingual-en">Randomized quiz based on the curriculum of Assist. Prof. Dr. Ali Salim — Alshaab University, 3rd Year / 2nd Semester.</span><span class="bilingual-ar">اختبار عشوائي بناءً على منهج أ.م.د. علي سالم — جامعة الشعب، السنة الثالثة / الفصل الثاني.</span></span> <span class="badge badge-info">15 Questions Available</span></p>
   </div>
 
   <!-- Setup Screen -->
   <div id="quiz-setup" class="card">
-    <div class="card-title">⚙️ Quiz Configuration</div>
+    <div class="card-title">⚙️ <span class="bilingual-wrap"><span class="bilingual-en">Quiz Configuration</span><span class="bilingual-ar">إعدادات الاختبار</span></span></div>
     <div class="grid-2">
       <div>
         <div class="input-group">
-          <label>Number of Questions</label>
+          <label><span class="bilingual-wrap"><span class="bilingual-en">Number of Questions</span><span class="bilingual-ar">عدد الأسئلة</span></span></label>
           <select id="quiz-count">
-            <option value="5">5 Questions (Quick)</option>
-            <option value="10" selected>10 Questions (Standard)</option>
-            <option value="15">15 Questions (Full Exam)</option>
+            <option value="5">5 Questions (Quick) — ٥ أسئلة (سريع)</option>
+            <option value="10" selected>10 Questions (Standard) — ١٠ أسئلة (قياسي)</option>
+            <option value="15">15 Questions (Full Exam) — ١٥ سؤالاً (امتحان كامل)</option>
           </select>
         </div>
         <div class="input-group">
-          <label>Topic Filter</label>
+          <label><span class="bilingual-wrap"><span class="bilingual-en">Topic Filter</span><span class="bilingual-ar">تصفية الموضوع</span></span></label>
           <select id="quiz-topic">
-            <option value="">All Topics</option>
+            <option value="">All Topics — جميع المواضيع</option>
             <option value="OSINT">OSINT</option>
-            <option value="Sybil Attacks">Sybil Attacks</option>
-            <option value="TrustRank">TrustRank</option>
-            <option value="Phishing Detection">Phishing Detection</option>
-            <option value="Account Takeovers">Account Takeovers</option>
-            <option value="Data Privacy">Data Privacy</option>
-            <option value="Malware">Malware</option>
+            <option value="Sybil Attacks">Sybil Attacks — هجمات سيبل</option>
+            <option value="TrustRank">TrustRank — تصنيف الثقة</option>
+            <option value="Phishing Detection">Phishing Detection — كشف التصيد</option>
+            <option value="Account Takeovers">Account Takeovers — اختراق الحسابات</option>
+            <option value="Data Privacy">Data Privacy — خصوصية البيانات</option>
+            <option value="Malware">Malware — البرمجيات الخبيثة</option>
           </select>
         </div>
         <div class="input-group">
-          <label>Difficulty</label>
+          <label><span class="bilingual-wrap"><span class="bilingual-en">Difficulty</span><span class="bilingual-ar">مستوى الصعوبة</span></span></label>
           <select id="quiz-difficulty">
-            <option value="">All Levels</option>
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
+            <option value="">All Levels — جميع المستويات</option>
+            <option value="easy">Easy — سهل</option>
+            <option value="medium">Medium — متوسط</option>
+            <option value="hard">Hard — صعب</option>
           </select>
         </div>
       </div>
       <div style="display:flex;flex-direction:column;justify-content:center;gap:12px;padding:1rem;background:var(--bg-secondary);border-radius:10px;border:1px solid var(--border)">
         <div style="font-size:13px;color:var(--text-secondary);line-height:1.7">
-          <strong style="color:var(--text-primary)">Exam covers:</strong><br>
-          • OSINT & Photo Intelligence<br>
-          • Sybil Attack anatomy & detection<br>
-          • TrustRank / PageRank algorithms<br>
-          • Phishing & Levenshtein Distance<br>
-          • Account security & Credential Stuffing<br>
-          • Social Media threat categories
+          <strong style="color:var(--text-primary)"><span class="bilingual-wrap"><span class="bilingual-en">Exam covers:</span><span class="bilingual-ar">يشمل الامتحان:</span></span></strong><br>
+          • <span class="bilingual-wrap"><span class="bilingual-en">OSINT & Photo Intelligence</span><span class="bilingual-ar">الاستخبارات المفتوحة وتحليل الصور</span></span><br>
+          • <span class="bilingual-wrap"><span class="bilingual-en">Sybil Attack anatomy & detection</span><span class="bilingual-ar">تشريح هجمات سيبل والكشف عنها</span></span><br>
+          • <span class="bilingual-wrap"><span class="bilingual-en">TrustRank / PageRank algorithms</span><span class="bilingual-ar">خوارزميات TrustRank / PageRank</span></span><br>
+          • <span class="bilingual-wrap"><span class="bilingual-en">Phishing & Levenshtein Distance</span><span class="bilingual-ar">التصيد ومسافة ليفنشتاين</span></span><br>
+          • <span class="bilingual-wrap"><span class="bilingual-en">Account security & Credential Stuffing</span><span class="bilingual-ar">أمان الحساب وحشو بيانات الاعتماد</span></span><br>
+          • <span class="bilingual-wrap"><span class="bilingual-en">Social Media threat categories</span><span class="bilingual-ar">فئات التهديدات على وسائل التواصل الاجتماعي</span></span>
         </div>
-        <button class="btn btn-primary" onclick="startQuiz()" style="margin-top:0.5rem">▶ Start Exam</button>
+        <button class="btn btn-primary" onclick="startQuiz()" style="margin-top:0.5rem">▶ <span class="bilingual-wrap"><span class="bilingual-en">Start Exam</span><span class="bilingual-ar">ابدأ الامتحان</span></span></button>
       </div>
     </div>
   </div>
@@ -1354,11 +1490,11 @@ E        → D   ← (D↔E loop)</div>
   <div id="quiz-active" style="display:none">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
       <div style="font-family:var(--font-mono);font-size:13px;color:var(--text-secondary)">
-        Question <span id="quiz-current-num" style="color:var(--accent-trust)">1</span> of <span id="quiz-total-num">10</span>
-        &nbsp;|&nbsp; Topic: <span id="quiz-topic-label" style="color:var(--accent-cyan)"></span>
+        <span class="bilingual-wrap"><span class="bilingual-en">Question</span><span class="bilingual-ar">سؤال</span></span> <span id="quiz-current-num" style="color:var(--accent-trust)">1</span> of <span id="quiz-total-num">10</span>
+        &nbsp;|&nbsp; <span class="bilingual-wrap"><span class="bilingual-en">Topic:</span><span class="bilingual-ar">الموضوع:</span></span> <span id="quiz-topic-label" style="color:var(--accent-cyan)"></span>
         &nbsp;|&nbsp; <span id="quiz-diff-label" class="badge"></span>
       </div>
-      <button class="btn btn-ghost" onclick="endQuiz()">✕ End Quiz</button>
+      <button class="btn btn-ghost" onclick="endQuiz()">✕ <span class="bilingual-wrap"><span class="bilingual-en">End Quiz</span><span class="bilingual-ar">إنهاء الاختبار</span></span></button>
     </div>
 
     <div class="quiz-progress">
@@ -1370,8 +1506,8 @@ E        → D   ← (D↔E loop)</div>
       <div id="quiz-options"></div>
       <div id="quiz-feedback" style="display:none" class="result-panel" style="margin-top:1rem"></div>
       <div style="display:flex;justify-content:space-between;margin-top:1.5rem">
-        <div id="quiz-score-live" style="font-family:var(--font-mono);font-size:13px;color:var(--text-muted)">Score: 0/0</div>
-        <button class="btn btn-primary" id="quiz-next-btn" onclick="nextQuestion()" style="display:none">Next Question →</button>
+        <div id="quiz-score-live" style="font-family:var(--font-mono);font-size:13px;color:var(--text-muted)"><span class="bilingual-wrap"><span class="bilingual-en">Score:</span><span class="bilingual-ar">النتيجة:</span></span> 0/0</div>
+        <button class="btn btn-primary" id="quiz-next-btn" onclick="nextQuestion()" style="display:none"><span class="bilingual-wrap"><span class="bilingual-en">Next Question</span><span class="bilingual-ar">السؤال التالي</span></span> →</button>
       </div>
     </div>
   </div>
@@ -1383,20 +1519,440 @@ E        → D   ← (D↔E loop)</div>
       <div style="font-family:var(--font-display);font-size:24px;font-weight:900;margin-bottom:0.5rem" id="quiz-result-title"></div>
       <div style="color:var(--text-secondary);margin-bottom:2rem" id="quiz-result-subtitle"></div>
       <div class="grid-4" style="margin-bottom:2rem">
-        <div class="stat-card"><div class="stat-value" id="r-score" style="color:var(--accent-trust)">—</div><div class="stat-label">Correct</div></div>
-        <div class="stat-card"><div class="stat-value" id="r-total" style="color:var(--accent-info)">—</div><div class="stat-label">Total</div></div>
-        <div class="stat-card"><div class="stat-value" id="r-pct" style="color:var(--accent-warn)">—</div><div class="stat-label">Score %</div></div>
-        <div class="stat-card"><div class="stat-value" id="r-grade" style="color:var(--accent-cyan)">—</div><div class="stat-label">Grade</div></div>
+        <div class="stat-card"><div class="stat-value" id="r-score" style="color:var(--accent-trust)">—</div><div class="stat-label"><span class="bilingual-wrap"><span class="bilingual-en">Correct</span><span class="bilingual-ar">صحيح</span></span></div></div>
+        <div class="stat-card"><div class="stat-value" id="r-total" style="color:var(--accent-info)">—</div><div class="stat-label"><span class="bilingual-wrap"><span class="bilingual-en">Total</span><span class="bilingual-ar">المجموع</span></span></div></div>
+        <div class="stat-card"><div class="stat-value" id="r-pct" style="color:var(--accent-warn)">—</div><div class="stat-label"><span class="bilingual-wrap"><span class="bilingual-en">Score %</span><span class="bilingual-ar">النتيجة %</span></span></div></div>
+        <div class="stat-card"><div class="stat-value" id="r-grade" style="color:var(--accent-cyan)">—</div><div class="stat-label"><span class="bilingual-wrap"><span class="bilingual-en">Grade</span><span class="bilingual-ar">التقدير</span></span></div></div>
       </div>
       <div style="display:flex;gap:1rem;justify-content:center">
-        <button class="btn btn-primary" onclick="startQuiz()">🔄 Retry</button>
-        <button class="btn btn-ghost" onclick="showResults()">📋 Review Answers</button>
+        <button class="btn btn-primary" onclick="startQuiz()">🔄 <span class="bilingual-wrap"><span class="bilingual-en">Retry</span><span class="bilingual-ar">إعادة المحاولة</span></span></button>
+        <button class="btn btn-ghost" onclick="showResults()">📋 <span class="bilingual-wrap"><span class="bilingual-en">Review Answers</span><span class="bilingual-ar">مراجعة الإجابات</span></span></button>
       </div>
     </div>
     <div id="quiz-review-section" style="display:none;margin-top:1.5rem"></div>
     <div id="quiz-server-summary" style="margin-top:0"></div>
   </div>
 </div>
+
+<!-- ══════════════════════ ALGORITHMS PAGE ══════════════════════ -->
+<div class="page" id="page-algorithms">
+  <div class="page-header">
+    <h1>⚙️ <span class="bilingual-wrap"><span class="bilingual-en">Algorithms Reference</span><span class="bilingual-ar">مرجع الخوارزميات</span></span></h1>
+    <p><span class="bilingual-wrap"><span class="bilingual-en">Core algorithms used in social network security analysis — with complexity analysis and implementation.</span><span class="bilingual-ar">الخوارزميات الأساسية المستخدمة في تحليل أمن الشبكات الاجتماعية — مع تحليل التعقيد والتطبيق.</span></span></p>
+  </div>
+
+  <!-- ── 1. Bubble Sort ── -->
+  <div class="algo-card">
+    <div class="algo-header">
+      <div class="algo-icon">🫧</div>
+      <div>
+        <div class="algo-title">Bubble Sort</div>
+        <div class="algo-subtitle">فرز الفقاعة</div>
+      </div>
+    </div>
+    <div class="bilingual-algo">
+      <div class="ar">خوارزمية فرز الفقاعة هي أبسط خوارزميات الفرز. تعمل عن طريق المقارنة المتكررة بين العناصر المتجاورة وتبديلها إذا كانت في الترتيب الخاطئ. تُستخدم في التعليم لفهم مبدأ الفرز، لكنها غير فعّالة للبيانات الكبيرة.</div>
+      <div class="en">Bubble Sort repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order. It is primarily used as an educational tool due to its simplicity, but is inefficient on large datasets.</div>
+    </div>
+    <div class="algo-section-title">Complexity / التعقيد</div>
+    <div class="complexity-box-3">
+      <div class="complexity-item">
+        <div class="complexity-label">Best Case</div>
+        <div class="complexity-label-ar">أفضل حالة</div>
+        <div class="complexity-value good">O(n)</div>
+      </div>
+      <div class="complexity-item">
+        <div class="complexity-label">Average Case</div>
+        <div class="complexity-label-ar">الحالة المتوسطة</div>
+        <div class="complexity-value bad">O(n²)</div>
+      </div>
+      <div class="complexity-item">
+        <div class="complexity-label">Worst Case</div>
+        <div class="complexity-label-ar">أسوأ حالة</div>
+        <div class="complexity-value bad">O(n²)</div>
+      </div>
+    </div>
+    <div class="complexity-box" style="grid-template-columns:1fr">
+      <div class="complexity-item">
+        <div class="complexity-label">Space Complexity</div>
+        <div class="complexity-label-ar">تعقيد المساحة</div>
+        <div class="complexity-value good">O(1)</div>
+      </div>
+    </div>
+    <div class="algo-section-title">Implementation / التطبيق</div>
+    <div class="algo-code-label">Python</div>
+<pre class="algo-code"><span class="kw">def</span> <span class="fn">bubble_sort</span>(arr):
+    n = <span class="nb">len</span>(arr)
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="nb">range</span>(n):
+        <span class="kw">for</span> j <span class="kw">in</span> <span class="nb">range</span>(0, n - i - 1):
+            <span class="kw">if</span> arr[j] &gt; arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+    <span class="kw">return</span> arr</pre>
+  </div>
+
+  <!-- ── 2. Binary Search ── -->
+  <div class="algo-card">
+    <div class="algo-header">
+      <div class="algo-icon">🔎</div>
+      <div>
+        <div class="algo-title">Binary Search</div>
+        <div class="algo-subtitle">البحث الثنائي</div>
+      </div>
+    </div>
+    <div class="bilingual-algo">
+      <div class="ar">البحث الثنائي خوارزمية فعّالة للبحث في مصفوفة مرتبة. تعمل بتقسيم نطاق البحث إلى نصفين في كل خطوة، مما يجعلها أسرع بكثير من البحث الخطي. تُستخدم في قواعد البيانات وأنظمة الملفات.</div>
+      <div class="en">Binary Search efficiently locates a target value in a sorted array by repeatedly halving the search interval. It is far faster than linear search and is widely used in databases, file systems, and search engines.</div>
+    </div>
+    <div class="algo-section-title">Complexity / التعقيد</div>
+    <div class="complexity-box-3">
+      <div class="complexity-item">
+        <div class="complexity-label">Best Case</div>
+        <div class="complexity-label-ar">أفضل حالة</div>
+        <div class="complexity-value good">O(1)</div>
+      </div>
+      <div class="complexity-item">
+        <div class="complexity-label">Average Case</div>
+        <div class="complexity-label-ar">الحالة المتوسطة</div>
+        <div class="complexity-value good">O(log n)</div>
+      </div>
+      <div class="complexity-item">
+        <div class="complexity-label">Worst Case</div>
+        <div class="complexity-label-ar">أسوأ حالة</div>
+        <div class="complexity-value good">O(log n)</div>
+      </div>
+    </div>
+    <div class="complexity-box" style="grid-template-columns:1fr">
+      <div class="complexity-item">
+        <div class="complexity-label">Space Complexity</div>
+        <div class="complexity-label-ar">تعقيد المساحة</div>
+        <div class="complexity-value good">O(1)</div>
+      </div>
+    </div>
+    <div class="algo-section-title">Implementation / التطبيق</div>
+    <div class="algo-code-label">Python</div>
+<pre class="algo-code"><span class="kw">def</span> <span class="fn">binary_search</span>(arr, target):
+    low, high = 0, <span class="nb">len</span>(arr) - 1
+    <span class="kw">while</span> low &lt;= high:
+        mid = (low + high) // 2
+        <span class="kw">if</span> arr[mid] == target:
+            <span class="kw">return</span> mid
+        <span class="kw">elif</span> arr[mid] &lt; target:
+            low = mid + 1
+        <span class="kw">else</span>:
+            high = mid - 1
+    <span class="kw">return</span> -1</pre>
+  </div>
+
+  <!-- ── 3. Merge Sort ── -->
+  <div class="algo-card">
+    <div class="algo-header">
+      <div class="algo-icon">🔀</div>
+      <div>
+        <div class="algo-title">Merge Sort</div>
+        <div class="algo-subtitle">فرز الدمج</div>
+      </div>
+    </div>
+    <div class="bilingual-algo">
+      <div class="ar">فرز الدمج خوارزمية تعتمد على مبدأ "فرّق تسُد". تقسّم المصفوفة إلى نصفين، تفرز كلاً منهما بشكل مستقل، ثم تدمجهما. تتميز بأدائها الثابت O(n log n) في جميع الحالات وهي خوارزمية مستقرة.</div>
+      <div class="en">Merge Sort divides the array in half recursively, sorts each half independently, then merges them back together. It guarantees O(n log n) performance in all cases and is a stable sorting algorithm used in production systems.</div>
+    </div>
+    <div class="algo-section-title">Complexity / التعقيد</div>
+    <div class="complexity-box-3">
+      <div class="complexity-item">
+        <div class="complexity-label">Best Case</div>
+        <div class="complexity-label-ar">أفضل حالة</div>
+        <div class="complexity-value ok">O(n log n)</div>
+      </div>
+      <div class="complexity-item">
+        <div class="complexity-label">Average Case</div>
+        <div class="complexity-label-ar">الحالة المتوسطة</div>
+        <div class="complexity-value ok">O(n log n)</div>
+      </div>
+      <div class="complexity-item">
+        <div class="complexity-label">Worst Case</div>
+        <div class="complexity-label-ar">أسوأ حالة</div>
+        <div class="complexity-value ok">O(n log n)</div>
+      </div>
+    </div>
+    <div class="complexity-box" style="grid-template-columns:1fr">
+      <div class="complexity-item">
+        <div class="complexity-label">Space Complexity</div>
+        <div class="complexity-label-ar">تعقيد المساحة</div>
+        <div class="complexity-value ok">O(n)</div>
+      </div>
+    </div>
+    <div class="algo-section-title">Implementation / التطبيق</div>
+    <div class="algo-code-label">Python</div>
+<pre class="algo-code"><span class="kw">def</span> <span class="fn">merge_sort</span>(arr):
+    <span class="kw">if</span> <span class="nb">len</span>(arr) &lt;= 1:
+        <span class="kw">return</span> arr
+    mid = <span class="nb">len</span>(arr) // 2
+    left  = <span class="fn">merge_sort</span>(arr[:mid])
+    right = <span class="fn">merge_sort</span>(arr[mid:])
+    <span class="kw">return</span> <span class="fn">merge</span>(left, right)
+
+<span class="kw">def</span> <span class="fn">merge</span>(left, right):
+    result = []
+    i = j = 0
+    <span class="kw">while</span> i &lt; <span class="nb">len</span>(left) <span class="kw">and</span> j &lt; <span class="nb">len</span>(right):
+        <span class="kw">if</span> left[i] &lt;= right[j]:
+            result.<span class="fn">append</span>(left[i]); i += 1
+        <span class="kw">else</span>:
+            result.<span class="fn">append</span>(right[j]); j += 1
+    <span class="kw">return</span> result + left[i:] + right[j:]</pre>
+  </div>
+
+  <!-- ── 4. Dijkstra's Algorithm ── -->
+  <div class="algo-card">
+    <div class="algo-header">
+      <div class="algo-icon">🗺️</div>
+      <div>
+        <div class="algo-title">Dijkstra's Algorithm</div>
+        <div class="algo-subtitle">خوارزمية ديكسترا</div>
+      </div>
+    </div>
+    <div class="bilingual-algo">
+      <div class="ar">خوارزمية ديكسترا تجد أقصر مسار بين عقدة المصدر وجميع العقد الأخرى في رسم بياني موزون بأوزان موجبة. تُستخدم في بروتوكولات التوجيه في الشبكات، وخرائط التنقل، وأنظمة أمن الشبكات الاجتماعية لتتبع انتشار المعلومات.</div>
+      <div class="en">Dijkstra's Algorithm finds the shortest path from a source node to all other nodes in a weighted graph with non-negative weights. It is used in network routing protocols (OSPF), GPS navigation, and social network analysis to model information propagation.</div>
+    </div>
+    <div class="algo-section-title">Complexity / التعقيد</div>
+    <div class="complexity-box-3">
+      <div class="complexity-item">
+        <div class="complexity-label">Best Case</div>
+        <div class="complexity-label-ar">أفضل حالة</div>
+        <div class="complexity-value ok">O(V + E)</div>
+      </div>
+      <div class="complexity-item">
+        <div class="complexity-label">Average Case</div>
+        <div class="complexity-label-ar">الحالة المتوسطة</div>
+        <div class="complexity-value ok">O((V+E) log V)</div>
+      </div>
+      <div class="complexity-item">
+        <div class="complexity-label">Worst Case</div>
+        <div class="complexity-label-ar">أسوأ حالة</div>
+        <div class="complexity-value bad">O(V²)</div>
+      </div>
+    </div>
+    <div class="complexity-box" style="grid-template-columns:1fr">
+      <div class="complexity-item">
+        <div class="complexity-label">Space Complexity</div>
+        <div class="complexity-label-ar">تعقيد المساحة</div>
+        <div class="complexity-value ok">O(V)</div>
+      </div>
+    </div>
+    <div class="algo-section-title">Implementation / التطبيق</div>
+    <div class="algo-code-label">Python</div>
+<pre class="algo-code"><span class="kw">import</span> heapq
+
+<span class="kw">def</span> <span class="fn">dijkstra</span>(graph, start):
+    dist = {node: <span class="nb">float</span>(<span class="st">'inf'</span>) <span class="kw">for</span> node <span class="kw">in</span> graph}
+    dist[start] = 0
+    heap = [(0, start)]
+    <span class="kw">while</span> heap:
+        d, u = heapq.<span class="fn">heappop</span>(heap)
+        <span class="kw">if</span> d &gt; dist[u]:
+            <span class="kw">continue</span>
+        <span class="kw">for</span> v, w <span class="kw">in</span> graph[u]:
+            <span class="kw">if</span> dist[u] + w &lt; dist[v]:
+                dist[v] = dist[u] + w
+                heapq.<span class="fn">heappush</span>(heap, (dist[v], v))
+    <span class="kw">return</span> dist</pre>
+  </div>
+
+  <!-- ── 5. PageRank ── -->
+  <div class="algo-card">
+    <div class="algo-header">
+      <div class="algo-icon">🌐</div>
+      <div>
+        <div class="algo-title">PageRank</div>
+        <div class="algo-subtitle">خوارزمية بيج رانك</div>
+      </div>
+    </div>
+    <div class="bilingual-algo">
+      <div class="ar">خوارزمية بيج رانك (المستخدمة في محرك بحث جوجل) تقيس أهمية الصفحة بناءً على عدد وجودة الروابط الواردة إليها. تُطبَّق في تحليل الشبكات الاجتماعية لتحديد العقد الأكثر تأثيراً وكشف حسابات سيبل المزيفة.</div>
+      <div class="en">PageRank (used by Google Search) measures a node's importance based on the quantity and quality of incoming links. In social network security, it is applied to identify influential nodes and detect Sybil accounts by revealing anomalous trust distributions.</div>
+    </div>
+    <div class="algo-section-title">Complexity / التعقيد</div>
+    <div class="complexity-box-3">
+      <div class="complexity-item">
+        <div class="complexity-label">Best Case</div>
+        <div class="complexity-label-ar">أفضل حالة</div>
+        <div class="complexity-value ok">O(k·(V+E))</div>
+      </div>
+      <div class="complexity-item">
+        <div class="complexity-label">Average Case</div>
+        <div class="complexity-label-ar">الحالة المتوسطة</div>
+        <div class="complexity-value ok">O(k·(V+E))</div>
+      </div>
+      <div class="complexity-item">
+        <div class="complexity-label">Worst Case</div>
+        <div class="complexity-label-ar">أسوأ حالة</div>
+        <div class="complexity-value ok">O(k·(V+E))</div>
+      </div>
+    </div>
+    <div class="complexity-box" style="grid-template-columns:1fr">
+      <div class="complexity-item">
+        <div class="complexity-label">Space Complexity</div>
+        <div class="complexity-label-ar">تعقيد المساحة</div>
+        <div class="complexity-value ok">O(V)</div>
+      </div>
+    </div>
+    <div class="algo-section-title">Implementation / التطبيق</div>
+    <div class="algo-code-label">Python</div>
+<pre class="algo-code"><span class="kw">def</span> <span class="fn">pagerank</span>(graph, damping=0.85, iters=100):
+    n = <span class="nb">len</span>(graph)
+    rank = {node: 1 / n <span class="kw">for</span> node <span class="kw">in</span> graph}
+    <span class="kw">for</span> _ <span class="kw">in</span> <span class="nb">range</span>(iters):
+        new_rank = {}
+        <span class="kw">for</span> node <span class="kw">in</span> graph:
+            total = <span class="nb">sum</span>(
+                rank[src] / <span class="nb">len</span>(graph[src])
+                <span class="kw">for</span> src <span class="kw">in</span> graph
+                <span class="kw">if</span> node <span class="kw">in</span> graph[src]
+            )
+            new_rank[node] = (1 - damping) / n + damping * total
+        rank = new_rank
+    <span class="kw">return</span> rank</pre>
+  </div>
+
+  <!-- ── 6. Levenshtein Distance ── -->
+  <div class="algo-card">
+    <div class="algo-header">
+      <div class="algo-icon">✏️</div>
+      <div>
+        <div class="algo-title">Levenshtein Distance</div>
+        <div class="algo-subtitle">مسافة ليفنشتاين</div>
+      </div>
+    </div>
+    <div class="bilingual-algo">
+      <div class="ar">مسافة ليفنشتاين تقيس الحد الأدنى من عمليات التحرير (إدراج، حذف، استبدال) اللازمة لتحويل سلسلة نصية إلى أخرى. تُستخدم في كشف التصيد الاحتيالي عن طريق مقارنة أسماء النطاقات لاكتشاف النطاقات المشبوهة المشابهة للنطاقات الشرعية.</div>
+      <div class="en">Levenshtein Distance measures the minimum number of single-character edits (insertions, deletions, substitutions) required to transform one string into another. In phishing detection, it compares domain names to identify typosquatted or lookalike domains.</div>
+    </div>
+    <div class="algo-section-title">Complexity / التعقيد</div>
+    <div class="complexity-box-3">
+      <div class="complexity-item">
+        <div class="complexity-label">Best Case</div>
+        <div class="complexity-label-ar">أفضل حالة</div>
+        <div class="complexity-value ok">O(m·n)</div>
+      </div>
+      <div class="complexity-item">
+        <div class="complexity-label">Average Case</div>
+        <div class="complexity-label-ar">الحالة المتوسطة</div>
+        <div class="complexity-value ok">O(m·n)</div>
+      </div>
+      <div class="complexity-item">
+        <div class="complexity-label">Worst Case</div>
+        <div class="complexity-label-ar">أسوأ حالة</div>
+        <div class="complexity-value bad">O(m·n)</div>
+      </div>
+    </div>
+    <div class="complexity-box" style="grid-template-columns:1fr">
+      <div class="complexity-item">
+        <div class="complexity-label">Space Complexity</div>
+        <div class="complexity-label-ar">تعقيد المساحة</div>
+        <div class="complexity-value ok">O(m·n)</div>
+      </div>
+    </div>
+    <div class="algo-section-title">Implementation / التطبيق</div>
+    <div class="algo-code-label">Python</div>
+<pre class="algo-code"><span class="kw">def</span> <span class="fn">levenshtein</span>(s, t):
+    m, n = <span class="nb">len</span>(s), <span class="nb">len</span>(t)
+    dp = [[0] * (n + 1) <span class="kw">for</span> _ <span class="kw">in</span> <span class="nb">range</span>(m + 1)]
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="nb">range</span>(m + 1):
+        dp[i][0] = i
+    <span class="kw">for</span> j <span class="kw">in</span> <span class="nb">range</span>(n + 1):
+        dp[0][j] = j
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="nb">range</span>(1, m + 1):
+        <span class="kw">for</span> j <span class="kw">in</span> <span class="nb">range</span>(1, n + 1):
+            <span class="kw">if</span> s[i-1] == t[j-1]:
+                dp[i][j] = dp[i-1][j-1]
+            <span class="kw">else</span>:
+                dp[i][j] = 1 + <span class="nb">min</span>(
+                    dp[i-1][j],
+                    dp[i][j-1],
+                    dp[i-1][j-1]
+                )
+    <span class="kw">return</span> dp[m][n]</pre>
+  </div>
+
+</div>
+<!-- ══════════════════════ END ALGORITHMS PAGE ══════════════════════ -->
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE: STUDY CENTER -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="page" id="page-study">
+  <div class="page-header">
+    <h1>📚 <span class="bilingual-wrap"><span class="bilingual-en">Study Center</span><span class="bilingual-ar">مركز الدراسة</span></span></h1>
+    <p><span class="bilingual-wrap"><span class="bilingual-en">Upload PDF or text files, get AI-powered bilingual summaries, and auto-generate exam questions.</span><span class="bilingual-ar">ارفع ملفات PDF أو نصية واحصل على ملخصات ثنائية اللغة مدعومة بالذكاء الاصطناعي وأسئلة امتحان تلقائية.</span></span></p>
+  </div>
+
+  <!-- Upload zone -->
+  <div class="card">
+    <div class="card-title">📤 <span class="bilingual-wrap"><span class="bilingual-en">Upload Files</span><span class="bilingual-ar">رفع الملفات</span></span></div>
+    <div class="study-upload-zone" id="study-drop-zone">
+      <input type="file" id="study-file-input" multiple accept=".pdf,.txt,text/plain,application/pdf" style="display:none" onchange="handleStudyUpload(this.files)">
+      <div style="font-size:2.5rem;margin-bottom:0.5rem">📁</div>
+      <div style="color:var(--text-primary);font-weight:600"><span class="bilingual-wrap"><span class="bilingual-en">Drop files here or click to browse</span><span class="bilingual-ar">اسحب الملفات هنا أو انقر للاختيار</span></span></div>
+      <div style="color:var(--text-secondary);font-size:0.8rem;margin-top:0.4rem"><span class="bilingual-wrap"><span class="bilingual-en">Supports PDF and TXT · Max 10 MB per file</span><span class="bilingual-ar">يدعم PDF وTXT · الحد الأقصى 10 ميغابايت لكل ملف</span></span></div>
+    </div>
+    <div class="upload-progress" id="study-upload-progress">
+      <div class="upload-progress-bar" id="study-upload-bar" style="width:0%"></div>
+    </div>
+  </div>
+
+  <!-- File dashboard -->
+  <div class="card" style="margin-top:1.5rem">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
+      <div class="card-title" style="margin:0">🗂️ <span class="bilingual-wrap"><span class="bilingual-en">File Library</span><span class="bilingual-ar">مكتبة الملفات</span></span></div>
+      <button class="btn btn-ghost" onclick="loadStudyFiles()" style="font-size:0.8rem">↺ <span class="bilingual-wrap"><span class="bilingual-en">Refresh</span><span class="bilingual-ar">تحديث</span></span></button>
+    </div>
+    <div class="sort-filter-bar">
+      <select id="study-cat-filter" onchange="loadStudyFiles()">
+        <option value="">All Categories / جميع الفئات</option>
+        <option value="Security">Security / الأمن</option>
+        <option value="Networking">Networking / الشبكات</option>
+        <option value="Algorithms">Algorithms / الخوارزميات</option>
+        <option value="Cryptography">Cryptography / التشفير</option>
+        <option value="Privacy">Privacy / الخصوصية</option>
+        <option value="General">General / عام</option>
+      </select>
+      <select id="study-sort" onchange="loadStudyFiles()">
+        <option value="date">Sort: Date / التاريخ</option>
+        <option value="name">Sort: Name / الاسم</option>
+        <option value="size">Sort: Size / الحجم</option>
+      </select>
+    </div>
+    <div id="study-file-grid" class="study-file-grid">
+      <div class="study-empty">
+        <div style="font-size:2rem">📭</div>
+        <div><span class="bilingual-wrap"><span class="bilingual-en">No files uploaded yet</span><span class="bilingual-ar">لم يتم رفع أي ملفات بعد</span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Summary panel -->
+  <div class="study-panel" id="study-summary-panel" style="display:none">
+    <div class="study-panel-title">🤖 AI Summary / الملخص الذكي — <span id="study-summary-filename" style="color:var(--text-primary)"></span></div>
+    <div id="study-summary-content"></div>
+  </div>
+
+  <!-- Exam Generator panel -->
+  <div class="study-panel" id="study-exam-panel" style="display:none">
+    <div class="study-panel-title">📝 Generated Exam / الامتحان المولّد — <span id="study-exam-filename" style="color:var(--text-primary)"></span></div>
+    <div id="study-exam-score-bar" class="exam-score-bar" style="display:none">
+      <div>
+        <div style="font-size:0.72rem;color:var(--text-secondary)">Score / النتيجة</div>
+        <div id="study-exam-score" style="font-size:1.5rem;font-weight:700;color:var(--accent-trust)">0 / 0</div>
+      </div>
+      <div style="flex:1;height:8px;background:var(--bg-primary);border-radius:4px;overflow:hidden">
+        <div id="study-exam-score-fill" style="height:100%;background:var(--accent-trust);border-radius:4px;width:0%;transition:width 0.5s"></div>
+      </div>
+    </div>
+    <div id="study-exam-content"></div>
+  </div>
+</div>
+<!-- ══════════════════════ END STUDY CENTER PAGE ══════════════════════ -->
 
 </main>
 
@@ -1407,6 +1963,11 @@ E        → D   ← (D↔E loop)</div>
 <!-- JAVASCRIPT -->
 <!-- ═══════════════════════════════════════════════ -->
 <script>
+
+// ── BILINGUAL TEXT HELPER ──
+function bilingualText(en, ar) {
+  return `<span class="bilingual-wrap"><span class="bilingual-en">${en}</span><span class="bilingual-ar">${ar}</span></span>`;
+}
 
 // ── CLOCK ──
 function updateClock() {
@@ -1485,7 +2046,7 @@ async function lev_compute() {
 
   // Show loading state
   const computeBtn = document.getElementById('lev-compute-btn');
-  if (computeBtn) { computeBtn.disabled = true; computeBtn.innerHTML = '<span class="loader"></span> Computing...'; }
+  if (computeBtn) { computeBtn.disabled = true; computeBtn.innerHTML = `<span class="loader"></span> ${bilingualText('Computing...','جار الحساب...')}`; }
 
   let apiData = null;
   try {
@@ -1517,7 +2078,7 @@ async function lev_compute() {
       })(),
     };
   } finally {
-    if (computeBtn) { computeBtn.disabled = false; computeBtn.innerHTML = '⚡ Compute Matrix'; }
+    if (computeBtn) { computeBtn.disabled = false; computeBtn.innerHTML = `⚡ ${bilingualText('Compute Matrix','احسب المصفوفة')}`; }
   }
 
   const { distance: dist, similarity: simPct, sourceLen: m, targetLen: n, matrix: dp, stepsLog, risk } = apiData;
@@ -1556,7 +2117,7 @@ async function lev_compute() {
   const panelClass = simPct >= 70 ? 'danger' : simPct >= 50 ? 'warning' : 'safe';
   panel.className = 'result-panel ' + panelClass;
   panel.innerHTML = `
-    <strong>Analysis Result <span style="font-size:10px;font-family:var(--font-mono);color:var(--accent-cyan)">[via /api/levenshtein]</span>:</strong><br>
+    <strong>${bilingualText('Analysis Result','نتيجة التحليل')} <span style="font-size:10px;font-family:var(--font-mono);color:var(--accent-cyan)">[via /api/levenshtein]</span>:</strong><br>
     Strings: <code style="color:var(--accent-trust)">"${s}"</code> vs <code style="color:var(--accent-threat)">"${t}"</code><br>
     Edit Distance: <strong>${dist}</strong> operation(s) needed
     &nbsp;|&nbsp; Similarity: <strong>${simPct.toFixed(1)}%</strong>
@@ -1762,18 +2323,18 @@ function computeTrustRank() {
   // Insights
   const topPage = results.reduce((a,b) => a.score > b.score ? a : b);
   document.getElementById('tr-insights').innerHTML = `
-    <strong style="color:var(--text-primary)">▸ Highest trust:</strong> Page ${topPage.id} (${topPage.score.toFixed(4)})<br>
-    <strong style="color:var(--text-primary)">▸ Pages D & E:</strong> Score 0 — isolated from seed, trust cannot flow to them in iteration 1<br>
-    <strong style="color:var(--text-primary)">▸ Trust degrades</strong> with increasing distance from seed nodes<br>
-    <strong style="color:var(--text-primary)">▸ Convergence:</strong> Requires 20–50 iterations on large graphs
+    <strong style="color:var(--text-primary)">▸ ${bilingualText('Highest trust:','أعلى ثقة:')}</strong> Page ${topPage.id} (${topPage.score.toFixed(4)})<br>
+    <strong style="color:var(--text-primary)">▸ Pages D & E:</strong> ${bilingualText('Score 0 — isolated from seed, trust cannot flow to them in iteration 1','الدرجة ٠ — معزولة عن البذرة، لا يمكن للثقة أن تصلها في التكرار الأول')}<br>
+    <strong style="color:var(--text-primary)">▸ ${bilingualText('Trust degrades','الثقة تتناقص')}</strong> ${bilingualText('with increasing distance from seed nodes','مع زيادة المسافة من العقد البذرية')}<br>
+    <strong style="color:var(--text-primary)">▸ ${bilingualText('Convergence:','التقارب:')}</strong> ${bilingualText('Requires 20–50 iterations on large graphs','يتطلب ٢٠–٥٠ تكراراً على الرسوم البيانية الكبيرة')}
   `;
 
   // Sum verification
   document.getElementById('tr-sum-verify').innerHTML = `
-    <strong>Sum Verification:</strong><br>
+    <strong>${bilingualText('Sum Verification:','التحقق من المجموع:')}</strong><br>
     ${results.map(r => `T(${r.id})=${r.score.toFixed(4)}`).join(' + ')}<br>
     <strong style="color:var(--accent-trust)">= ${totalSum.toFixed(4)} ≈ 1.0 ✓</strong><br><br>
-    The trust scores form a probability distribution — they always sum to 1.
+    ${bilingualText('The trust scores form a probability distribution — they always sum to 1.','تشكّل درجات الثقة توزيعاً احتمالياً — مجموعها دائماً يساوي ١.')}
   `;
 
   document.getElementById('tr-results-card').style.display = 'block';
@@ -1883,11 +2444,11 @@ function initOsintCards() {
       <div class="osint-card-body">
         <p style="font-size:13px;color:var(--text-secondary);line-height:1.7;margin-top:1rem">${t.desc}</p>
         <div style="margin-top:1rem">
-          <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--accent-cyan);margin-bottom:6px;text-transform:uppercase">Data Extracted</div>
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--accent-cyan);margin-bottom:6px;text-transform:uppercase">${bilingualText('Data Extracted','البيانات المستخرجة')}</div>
           <ul>${t.extracted.map(e=>`<li>${e}</li>`).join('')}</ul>
         </div>
         <div style="margin-top:1rem;padding:10px 12px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2);border-radius:8px">
-          <div style="font-size:11px;font-weight:700;color:var(--accent-trust);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.1em">🛡️ Mitigation</div>
+          <div style="font-size:11px;font-weight:700;color:var(--accent-trust);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.1em">🛡️ ${bilingualText('Mitigation','التخفيف')}</div>
           <div style="font-size:12px;color:var(--text-secondary)">${t.mitigation}</div>
         </div>
       </div>
@@ -1971,7 +2532,7 @@ function renderQuestion() {
   document.getElementById('quiz-total-num').textContent = total;
   document.getElementById('quiz-topic-label').textContent = q.topic;
   document.getElementById('quiz-progress-fill').style.width = pct + '%';
-  document.getElementById('quiz-score-live').textContent = `Score: ${score}/${current}`;
+  document.getElementById('quiz-score-live').innerHTML = `${bilingualText('Score:','النتيجة:')} ${score}/${current}`;
   document.getElementById('quiz-next-btn').style.display = 'none';
   document.getElementById('quiz-feedback').style.display = 'none';
 
@@ -2012,14 +2573,14 @@ function selectAnswer(idx) {
   const fb = document.getElementById('quiz-feedback');
   fb.style.display = 'block';
   fb.className = 'result-panel ' + (isCorrect ? 'safe' : 'danger');
-  fb.innerHTML = `<strong>${isCorrect ? '✅ Correct!' : '❌ Incorrect'}</strong><br><br>
-    <strong>Explanation:</strong> ${q.exp}`;
+  fb.innerHTML = `<strong>${isCorrect ? `✅ ${bilingualText('Correct!','صحيح!')}` : `❌ ${bilingualText('Incorrect','خطأ')}`}</strong><br><br>
+    <strong>${bilingualText('Explanation:','الشرح:')}</strong> ${q.exp}`;
 
-  document.getElementById('quiz-score-live').textContent = `Score: ${quizState.score}/${quizState.current+1}`;
+  document.getElementById('quiz-score-live').innerHTML = `${bilingualText('Score:','النتيجة:')} ${quizState.score}/${quizState.current+1}`;
   document.getElementById('quiz-next-btn').style.display = 'inline-flex';
 
   if (quizState.current + 1 >= quizState.questions.length) {
-    document.getElementById('quiz-next-btn').textContent = '📊 See Results';
+    document.getElementById('quiz-next-btn').innerHTML = `📊 ${bilingualText('See Results','عرض النتائج')}`;
     document.getElementById('quiz-next-btn').onclick = finishQuiz;
   }
 }
@@ -2046,17 +2607,19 @@ async function finishQuiz() {
 
   // Render basic result immediately
   document.getElementById('quiz-result-emoji').textContent = emoji;
-  document.getElementById('quiz-result-title').textContent =
-    pct>=80?'Excellent Performance!':pct>=60?'Good Effort!':'Keep Studying!';
-  document.getElementById('quiz-result-subtitle').textContent =
-    `You answered ${score} out of ${total} questions correctly.`;
+  document.getElementById('quiz-result-title').innerHTML =
+    pct>=80 ? bilingualText('Excellent Performance!','أداء ممتاز!') :
+    pct>=60 ? bilingualText('Good Effort!','جهد جيد!') :
+    bilingualText('Keep Studying!','واصل الدراسة!');
+  document.getElementById('quiz-result-subtitle').innerHTML =
+    bilingualText(`You answered ${score} out of ${total} questions correctly.`,`أجبت على ${score} من أصل ${total} سؤالاً بشكل صحيح.`);
 
   document.getElementById('r-score').textContent = score;
   document.getElementById('r-total').textContent = total;
   document.getElementById('r-pct').textContent   = pct + '%';
   document.getElementById('r-grade').textContent = grade;
 
-  document.getElementById('quiz-next-btn').textContent = 'Next Question →';
+  document.getElementById('quiz-next-btn').innerHTML = `${bilingualText('Next Question','السؤال التالي')} →`;
   document.getElementById('quiz-next-btn').onclick = nextQuestion;
 
   // Submit to backend for detailed analysis
@@ -2073,25 +2636,25 @@ async function finishQuiz() {
     const summaryEl = document.getElementById('quiz-server-summary');
     if (summaryEl && data.topicSummary) {
       let sHtml = `<div class="card" style="margin-top:1.5rem">
-        <div class="card-title">🖥️ Server Analysis <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted)">[/api/submit-quiz]</span></div>
+        <div class="card-title">🖥️ ${bilingualText('Server Analysis','تحليل الخادم')} <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted)">[/api/submit-quiz]</span></div>
         <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1rem">
           <div class="stat-card" style="flex:1;min-width:120px">
             <div class="stat-value" style="color:var(--accent-cyan)">${data.tier}</div>
-            <div class="stat-label">Performance Tier</div>
+            <div class="stat-label">${bilingualText('Performance Tier','مستوى الأداء')}</div>
           </div>
           <div class="stat-card" style="flex:1;min-width:120px">
             <div class="stat-value" style="color:var(--accent-trust)">${data.grade}</div>
-            <div class="stat-label">Grade</div>
+            <div class="stat-label">${bilingualText('Grade','التقدير')}</div>
           </div>
           ${timeTaken ? `<div class="stat-card" style="flex:1;min-width:120px">
             <div class="stat-value" style="color:var(--accent-info)">${data.timeTaken}</div>
-            <div class="stat-label">Time Taken</div>
+            <div class="stat-label">${bilingualText('Time Taken','الوقت المستغرق')}</div>
           </div>` : ''}
         </div>
         <div class="result-panel ${data.tierColor === 'trust' ? 'safe' : data.tierColor === 'warn' ? 'warning' : 'danger'}" style="margin-bottom:1rem">
           ${data.message}
         </div>
-        <div class="card-title" style="margin-top:0.5rem">📊 Topic Breakdown</div>`;
+        <div class="card-title" style="margin-top:0.5rem">📊 ${bilingualText('Topic Breakdown','تفصيل الموضوعات')}</div>`;
 
       data.topicSummary.forEach(t => {
         const c = t.status === 'mastered' ? 'var(--accent-trust)' : t.status === 'needs_work' ? 'var(--accent-threat)' : 'var(--accent-warn)';
@@ -2108,7 +2671,7 @@ async function finishQuiz() {
 
       if (data.weakTopics && data.weakTopics.length > 0) {
         sHtml += `<div style="margin-top:1rem;padding:10px 12px;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2);border-radius:8px">
-          <div style="font-size:11px;font-weight:700;color:var(--accent-threat);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.1em">⚠️ Focus Areas</div>
+          <div style="font-size:11px;font-weight:700;color:var(--accent-threat);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.1em">⚠️ ${bilingualText('Focus Areas','مجالات التركيز')}</div>
           <div style="font-size:12px;color:var(--text-secondary)">${data.weakTopics.join(', ')}</div>
         </div>`;
       }
@@ -2127,16 +2690,16 @@ function showResults() {
   const sec = document.getElementById('quiz-review-section');
   sec.style.display = 'block';
   const letters = ['A','B','C','D'];
-  let html = '<div class="card"><div class="card-title">📋 Full Answer Review</div>';
+  let html = `<div class="card"><div class="card-title">📋 ${bilingualText('Full Answer Review','مراجعة الإجابات الكاملة')}</div>`;
   quizState.questions.forEach((q, i) => {
     const ua = quizState.userAnswers[i];
     const correct = ua === q.correct;
     html += `<div style="margin-bottom:1.2rem;padding:1rem;border-radius:8px;background:var(--bg-secondary);border-left:3px solid ${correct?'var(--accent-trust)':'var(--accent-threat)'}">
       <div style="font-weight:700;margin-bottom:8px">Q${i+1}. ${q.q}</div>
       <div style="font-size:13px;color:var(--text-secondary)">
-        <span class="badge ${correct?'badge-trust':'badge-threat'}">${correct?'✓ Correct':'✗ Wrong'}</span>
-        &nbsp; Your answer: <strong>${letters[ua]} — ${q.opts[ua]}</strong>
-        ${!correct ? `&nbsp;|&nbsp; Correct: <strong style="color:var(--accent-trust)">${letters[q.correct]} — ${q.opts[q.correct]}</strong>` : ''}
+        <span class="badge ${correct?'badge-trust':'badge-threat'}">${correct ? `✓ ${bilingualText('Correct','صحيح')}` : `✗ ${bilingualText('Wrong','خطأ')}`}</span>
+        &nbsp; ${bilingualText('Your answer:','إجابتك:')} <strong>${letters[ua]} — ${q.opts[ua]}</strong>
+        ${!correct ? `&nbsp;|&nbsp; ${bilingualText('Correct:','الصحيح:')} <strong style="color:var(--accent-trust)">${letters[q.correct]} — ${q.opts[q.correct]}</strong>` : ''}
       </div>
       <div style="font-size:12px;color:var(--text-muted);margin-top:6px">${q.exp}</div>
     </div>`;
@@ -2165,19 +2728,273 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(d => {
       const el = document.getElementById('api-status');
       if (d.ok) {
-        el.textContent = `ONLINE (${d.db.questions}Q)`;
+        el.innerHTML = bilingualText(`ONLINE (${d.db.questions}Q)`,`متصل (${d.db.questions} سؤال)`);
         el.style.color = 'var(--accent-trust)';
       } else {
-        el.textContent = 'DEGRADED';
+        el.innerHTML = bilingualText('DEGRADED','متدهور');
         el.style.color = 'var(--accent-warn)';
       }
     })
     .catch(() => {
       const el = document.getElementById('api-status');
-      el.textContent = 'OFFLINE';
+      el.innerHTML = bilingualText('OFFLINE','غير متصل');
       el.style.color = 'var(--accent-threat)';
     });
 });
+
+// ═══════════════════════════════════════════════════════════
+// STUDY CENTER
+// ═══════════════════════════════════════════════════════════
+
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function formatBytes(b) {
+  if (b < 1024) return b + ' B';
+  if (b < 1024 * 1024) return (b / 1024).toFixed(1) + ' KB';
+  return (b / (1024 * 1024)).toFixed(1) + ' MB';
+}
+
+// Drag-and-drop wiring (set up once DOM is ready)
+document.addEventListener('DOMContentLoaded', () => {
+  const zone = document.getElementById('study-drop-zone');
+  if (!zone) return;
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault();
+    zone.classList.remove('drag-over');
+    handleStudyUpload(e.dataTransfer.files);
+  });
+  // Click on zone triggers hidden file input
+  zone.addEventListener('click', e => {
+    if (e.target.tagName !== 'INPUT') document.getElementById('study-file-input').click();
+  });
+});
+
+async function handleStudyUpload(fileList) {
+  if (!fileList || fileList.length === 0) return;
+  const prog = document.getElementById('study-upload-progress');
+  const bar  = document.getElementById('study-upload-bar');
+  prog.style.display = 'block';
+  bar.style.width = '20%';
+
+  const fd = new FormData();
+  for (const f of fileList) fd.append('files', f);
+
+  try {
+    bar.style.width = '60%';
+    const res  = await fetch('/api/study/upload', { method: 'POST', body: fd });
+    bar.style.width = '90%';
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error);
+    bar.style.width = '100%';
+    notify(`Uploaded ${data.files.length} file(s) successfully`, 'success');
+    setTimeout(() => { prog.style.display = 'none'; bar.style.width = '0%'; }, 600);
+    loadStudyFiles();
+  } catch (err) {
+    prog.style.display = 'none';
+    notify('Upload failed: ' + err.message, 'error');
+  }
+  document.getElementById('study-file-input').value = '';
+}
+
+async function loadStudyFiles() {
+  const cat  = document.getElementById('study-cat-filter')?.value || '';
+  const sort = document.getElementById('study-sort')?.value || 'date';
+  const grid = document.getElementById('study-file-grid');
+  if (!grid) return;
+
+  try {
+    const res  = await fetch(`/api/study/files?category=${encodeURIComponent(cat)}&sort=${sort}`);
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error);
+
+    if (data.files.length === 0) {
+      grid.innerHTML = `<div class="study-empty"><div style="font-size:2rem">📭</div><div><span class="bilingual-wrap"><span class="bilingual-en">No files found</span><span class="bilingual-ar">لا توجد ملفات</span></span></div></div>`;
+      return;
+    }
+
+    grid.innerHTML = data.files.map(f => `
+      <div class="study-file-card" id="file-card-${f.id}">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div style="flex:1;min-width:0">
+            <div class="file-name" title="${escHtml(f.name)}">${escHtml(f.name.length > 35 ? f.name.substring(0,32)+'…' : f.name)}</div>
+            <div class="file-meta">${formatBytes(f.size)} · ${new Date(f.uploadedAt).toLocaleDateString()}</div>
+          </div>
+          <span class="category-badge cat-${escHtml(f.category)}">${escHtml(f.category)}</span>
+        </div>
+        <div class="file-actions">
+          <button class="btn btn-primary" style="font-size:0.7rem;padding:0.3rem 0.6rem" onclick="studySummarize(${f.id},'${escHtml(f.name)}')">🤖 <span class="bilingual-wrap"><span class="bilingual-en">Summarize</span><span class="bilingual-ar">لخّص</span></span></button>
+          <button class="btn btn-ghost" style="font-size:0.7rem;padding:0.3rem 0.6rem" onclick="studyGenerateExam(${f.id},'${escHtml(f.name)}')">📝 <span class="bilingual-wrap"><span class="bilingual-en">Exam</span><span class="bilingual-ar">امتحان</span></span></button>
+          <button class="btn btn-ghost" style="font-size:0.7rem;padding:0.3rem 0.6rem;color:var(--accent-threat)" onclick="studyDeleteFile(${f.id})">🗑️</button>
+        </div>
+      </div>`).join('');
+  } catch (err) {
+    grid.innerHTML = `<div class="study-empty" style="color:var(--accent-threat)">Error: ${escHtml(err.message)}</div>`;
+  }
+}
+
+async function studySummarize(fileId, fileName) {
+  const panel   = document.getElementById('study-summary-panel');
+  const content = document.getElementById('study-summary-content');
+  const fnSpan  = document.getElementById('study-summary-filename');
+  panel.style.display = 'block';
+  fnSpan.textContent  = fileName;
+  content.innerHTML   = `<div class="ai-loading"><div class="ai-loading-dot"></div><span class="bilingual-wrap"><span class="bilingual-en">Generating bilingual summary…</span><span class="bilingual-ar">جار إنشاء الملخص الثنائي…</span></span></div>`;
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  try {
+    const res  = await fetch(`/api/study/summarize/${fileId}`, { method: 'POST' });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error);
+    const s = data.summary;
+    content.innerHTML = `
+      ${data.demo ? '<div class="demo-banner">⚠️ Demo mode — set ANTHROPIC_API_KEY for real AI summaries / وضع تجريبي — أضف مفتاح API للملخصات الذكية</div>' : ''}
+      <div class="bilingual-summary-ar">${escHtml(s.arabic)}</div>
+      <div class="bilingual-summary-en">${escHtml(s.english)}</div>
+      <div class="study-panel-title" style="margin-top:1rem">Key Points / النقاط الرئيسية</div>
+      <div class="key-points-grid">
+        <ul class="key-points-ar">${(s.keyPoints.arabic || []).map(p => `<li>${escHtml(p)}</li>`).join('')}</ul>
+        <ul class="key-points-en">${(s.keyPoints.english || []).map(p => `<li>${escHtml(p)}</li>`).join('')}</ul>
+      </div>`;
+  } catch (err) {
+    content.innerHTML = `<div style="color:var(--accent-threat)">Error: ${escHtml(err.message)}</div>`;
+  }
+}
+
+// Track exam state
+let studyExamState = { answers: {}, total: 0, scored: 0 };
+
+async function studyGenerateExam(fileId, fileName) {
+  const panel   = document.getElementById('study-exam-panel');
+  const content = document.getElementById('study-exam-content');
+  const fnSpan  = document.getElementById('study-exam-filename');
+  const scorBar = document.getElementById('study-exam-score-bar');
+  panel.style.display = 'block';
+  fnSpan.textContent  = fileName;
+  scorBar.style.display = 'none';
+  content.innerHTML   = `<div class="ai-loading"><div class="ai-loading-dot"></div><span class="bilingual-wrap"><span class="bilingual-en">Generating exam questions…</span><span class="bilingual-ar">جار إنشاء أسئلة الامتحان…</span></span></div>`;
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  studyExamState = { answers: {}, total: 0, scored: 0 };
+
+  try {
+    const res  = await fetch(`/api/study/generate-exam/${fileId}`, { method: 'POST' });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error);
+    const exam = data.exam;
+    studyExamState.total = (exam.mcq?.length || 0) + (exam.trueFalse?.length || 0);
+
+    let html = data.demo ? '<div class="demo-banner">⚠️ Demo mode — set ANTHROPIC_API_KEY for AI-generated questions / وضع تجريبي</div>' : '';
+
+    // MCQ section
+    if (exam.mcq && exam.mcq.length > 0) {
+      html += `<div class="study-panel-title">Multiple Choice Questions / أسئلة الاختيار المتعدد</div>`;
+      exam.mcq.forEach((q, qi) => {
+        const qid = `mcq-${qi}`;
+        html += `<div class="exam-question-card" id="qcard-${qid}">
+          <div class="exam-q-type">MCQ · ${qi + 1} / ${exam.mcq.length}</div>
+          <div class="exam-q-ar">${escHtml(q.question.arabic)}</div>
+          <div class="exam-q-en">${escHtml(q.question.english)}</div>
+          <div class="exam-options">
+            ${q.options.map((opt, oi) => `
+              <div class="exam-option" id="opt-${qid}-${oi}" onclick="studySelectMCQ('${qid}',${oi},${q.correct})">
+                <span class="opt-ar">${escHtml(opt.arabic)}</span>
+                <span class="opt-en">${escHtml(opt.english)}</span>
+              </div>`).join('')}
+          </div>
+          <div class="exam-explanation" id="exp-${qid}">
+            <div class="exam-exp-ar">${escHtml(q.explanation.arabic)}</div>
+            <div class="exam-exp-en">${escHtml(q.explanation.english)}</div>
+          </div>
+        </div>`;
+      });
+    }
+
+    // True/False section
+    if (exam.trueFalse && exam.trueFalse.length > 0) {
+      html += `<div class="study-panel-title" style="margin-top:1.5rem">True / False · صح / خطأ</div>`;
+      exam.trueFalse.forEach((q, qi) => {
+        const qid = `tf-${qi}`;
+        html += `<div class="exam-question-card" id="qcard-${qid}">
+          <div class="exam-q-type">True/False · ${qi + 1} / ${exam.trueFalse.length}</div>
+          <div class="exam-q-ar">${escHtml(q.statement.arabic)}</div>
+          <div class="exam-q-en">${escHtml(q.statement.english)}</div>
+          <div class="exam-tf-btns">
+            <button class="exam-tf-btn" id="tf-${qid}-true"  onclick="studySelectTF('${qid}',true,${q.answer})">✓ True / صح</button>
+            <button class="exam-tf-btn" id="tf-${qid}-false" onclick="studySelectTF('${qid}',false,${q.answer})">✗ False / خطأ</button>
+          </div>
+          <div class="exam-explanation" id="exp-${qid}">
+            <div class="exam-exp-ar">${escHtml(q.explanation.arabic)}</div>
+            <div class="exam-exp-en">${escHtml(q.explanation.english)}</div>
+          </div>
+        </div>`;
+      });
+    }
+
+    content.innerHTML = html;
+    scorBar.style.display = 'flex';
+    updateExamScore();
+  } catch (err) {
+    content.innerHTML = `<div style="color:var(--accent-threat)">Error: ${escHtml(err.message)}</div>`;
+  }
+}
+
+function studySelectMCQ(qid, chosen, correct) {
+  if (studyExamState.answers[qid] !== undefined) return;
+  studyExamState.answers[qid] = chosen === correct;
+  if (studyExamState.answers[qid]) studyExamState.scored++;
+
+  // Style all options
+  const card = document.getElementById(`qcard-${qid}`);
+  card.querySelectorAll('.exam-option').forEach((el, i) => {
+    if (i === correct) el.classList.add('correct');
+    else if (i === chosen) el.classList.add('wrong');
+    el.style.pointerEvents = 'none';
+  });
+  document.getElementById(`exp-${qid}`).classList.add('show');
+  updateExamScore();
+}
+
+function studySelectTF(qid, chosen, correct) {
+  if (studyExamState.answers[qid] !== undefined) return;
+  studyExamState.answers[qid] = chosen === correct;
+  if (studyExamState.answers[qid]) studyExamState.scored++;
+
+  const trueBtn  = document.getElementById(`tf-${qid}-true`);
+  const falseBtn = document.getElementById(`tf-${qid}-false`);
+  [trueBtn, falseBtn].forEach(b => b.disabled = true);
+  if (correct === true)  trueBtn.classList.add('correct');
+  else                   trueBtn.classList.add('wrong');
+  if (correct === false) falseBtn.classList.add('correct');
+  else                   falseBtn.classList.add('wrong');
+  document.getElementById(`exp-${qid}`).classList.add('show');
+  updateExamScore();
+}
+
+function updateExamScore() {
+  const s = studyExamState.scored;
+  const t = studyExamState.total;
+  document.getElementById('study-exam-score').textContent = `${s} / ${t}`;
+  const pct = t > 0 ? (s / t) * 100 : 0;
+  const fill = document.getElementById('study-exam-score-fill');
+  fill.style.width = pct + '%';
+  fill.style.background = pct >= 70 ? 'var(--accent-trust)' : pct >= 50 ? 'var(--accent-warn)' : 'var(--accent-threat)';
+}
+
+async function studyDeleteFile(fileId) {
+  if (!confirm('Delete this file? / هل تريد حذف هذا الملف؟')) return;
+  try {
+    const res  = await fetch(`/api/study/files/${fileId}`, { method: 'DELETE' });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error);
+    notify('File deleted / تم حذف الملف', 'success');
+    loadStudyFiles();
+  } catch (err) {
+    notify('Delete failed: ' + err.message, 'error');
+  }
+}
 </script>
 </body>
 </html>
